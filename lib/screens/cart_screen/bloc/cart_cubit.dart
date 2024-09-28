@@ -4,8 +4,8 @@ import 'package:meta/meta.dart';
 part 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
-  double unitPrice = 12.0; 
-  int quantity = 1; 
+  double unitPrice = 12.0;
+  int quantity = 1;
 
   CartCubit()
       : super(CartSuccess(totalPrice: 12.0, quantity: 1, unitPrice: 12.0));
@@ -14,7 +14,7 @@ class CartCubit extends Cubit<CartState> {
     try {
       final currentQuantity =
           (state is CartSuccess) ? (state as CartSuccess).quantity : quantity;
-      final updatedQuantity = currentQuantity + 1; 
+      final updatedQuantity = currentQuantity + 1;
 
       emit(CartSuccess(
         totalPrice: unitPrice * updatedQuantity,
@@ -26,15 +26,11 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
- 
   void decreaseQuantity() {
     try {
-    
       final currentQuantity =
           (state is CartSuccess) ? (state as CartSuccess).quantity : quantity;
-      final updatedQuantity = currentQuantity > 1
-          ? currentQuantity - 1
-          : 1; 
+      final updatedQuantity = currentQuantity > 1 ? currentQuantity - 1 : 1;
 
       emit(CartSuccess(
         totalPrice: unitPrice * updatedQuantity,

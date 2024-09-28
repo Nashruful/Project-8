@@ -23,5 +23,8 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-
      - assets/images/
+     - assets/images/cart.png
+     - assets/images/dot.png
+     - assets/images/coffee_cup.png
+     - assets/images/download.png

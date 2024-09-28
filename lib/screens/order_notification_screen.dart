@@ -66,7 +66,7 @@ class OrderNotificationScreen extends StatelessWidget {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Color(0xFF3D6B7D),
                         padding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 90),
+                            EdgeInsets.symmetric(vertical: 12, horizontal: 70),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(21.5),
                         ),

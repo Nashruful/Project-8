@@ -117,7 +117,6 @@ class CartScreen extends StatelessWidget {
     );
   }
 }
-
 Route createRouteToCart() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) =>

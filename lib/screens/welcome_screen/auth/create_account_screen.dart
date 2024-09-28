@@ -15,7 +15,6 @@ class CreateAccountScreen extends StatelessWidget {
             decoration: const BoxDecoration(
                 gradient: LinearGradient(
               begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
               colors: [Color(0xff87B1C5), Color(0x72FFFFFF), Color(0xffD7D2CB)],
             )),
           ),

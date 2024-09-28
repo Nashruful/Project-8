@@ -30,5 +30,5 @@ flutter:
         - asset: assets/fonts/Poppins-SemiBold.ttf
   assets:
     - assets/
-    - assets/png/
+    - assets/images/
     - assets/json/

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:onze_cofe_project/components/custom_elevated_button/custom_text/custom_text.dart';
+import 'package:onze_cofe_project/components/custom_text/custom_text.dart';
 import 'package:onze_cofe_project/screens/welcome_screen/cubit/welcome_cubit.dart';
 
 class WelcomeScreen extends StatefulWidget {

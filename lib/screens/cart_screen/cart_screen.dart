@@ -4,7 +4,7 @@ import 'package:onze_cofe_project/components/item/cartItem.dart';
 import 'package:onze_cofe_project/screens/order_notification_screen.dart';
 
 
-import 'bloc/cart_cubit.dart';
+import 'cubit/cart_cubit.dart';
 
 class CartScreen extends StatelessWidget {
   @override

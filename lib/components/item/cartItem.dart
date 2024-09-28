@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:onze_cofe_project/screens/cart_screen/bloc/cart_cubit.dart';
+import 'package:onze_cofe_project/screens/cart_screen/cubit/cart_cubit.dart';
 
 class CartItem extends StatelessWidget {
   @override

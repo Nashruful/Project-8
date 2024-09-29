@@ -16,14 +16,11 @@ class CartItem extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(15.0),
-                child: Image.asset(
-                  'assets/images/download.png',
-                  height: 70,
-                  width: 70,
-                  fit: BoxFit.cover,
-                ),
+              child: Image.asset(
+                'assets/images/download.png',
+                height: 80,
+                width: 80,
+                fit: BoxFit.cover,
               ),
             ),
             Expanded(
@@ -47,9 +44,8 @@ class CartItem extends StatelessWidget {
                         return Text(
                           "${state.unitPrice.toStringAsFixed(2)} SAR",
                           style: TextStyle(
-                            color: Color.fromRGBO(61, 107, 125, 1)
-                                .withOpacity(0.18),
-                            fontSize: 16,
+                            color: Color(0xff3D6B7D)
+,                            fontSize: 16,
                           ),
                         );
                       }
@@ -79,7 +75,6 @@ class CartItem extends StatelessWidget {
                     ),
                     BlocBuilder<CartCubit, CartState>(
                       builder: (context, state) {
-                      
                         if (state is CartSuccess) {
                           return Text(
                             "${state.quantity}",

@@ -10,7 +10,7 @@ class TrackOrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int index = 2;
+    int index = 1;
     return CustomBackgroundContainer(
       child: Scaffold(
           backgroundColor: Colors.transparent,
@@ -58,10 +58,14 @@ class TrackOrderScreen extends StatelessWidget {
                                 size: 16,
                               ),
                               const SizedBox(
-                                height: 20,
+                                height: 50,
                               ),
-                              Lottie.asset(
-                                  "assets/json/Animation - 1727532447033.json"),
+                              Center(
+                                child: Image.asset(
+                                  "assets/images/order_confirm.png",
+                                  width: 200,
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -129,12 +133,9 @@ class TrackOrderScreen extends StatelessWidget {
                                 size: 16,
                               ),
                               const SizedBox(
-                                height: 20,
+                                height: 50,
                               ),
-                              Lottie.asset(
-                                  'assets/json/Animation - 1727543351289.json',
-                                  width: 300,
-                                  height: 300),
+                              Image.asset("assets/images/ready_to_pick_up.png"),
                             ],
                           ),
                         ),

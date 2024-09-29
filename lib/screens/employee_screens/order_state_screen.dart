@@ -51,7 +51,7 @@ class OrderStateScreen extends StatelessWidget {
                                     image: CircleAvatar(
                                       radius: 35,
                                       child: Image.asset(
-                                        "assets/png/Cappuccino1.png",
+                                        "assets/images/Cappuccino1.png",
                                         fit: BoxFit.contain,
                                       ),
                                     ),
@@ -62,7 +62,7 @@ class OrderStateScreen extends StatelessWidget {
                                 ),
                                 CustomOrderContainer(
                                     image: Image.asset(
-                                        "assets/png/Cappuccino1.png"),
+                                        "assets/images/Cappuccino1.png"),
                                     title: "Cappuccino",
                                     subtitle: "12 SAR"),
                                 const SizedBox(

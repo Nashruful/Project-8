@@ -1,11 +1,6 @@
 import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:onze_cofe_project/screens/employee_screens/order_state_screen.dart';
-import 'package:onze_cofe_project/screens/employee_screens/orders_screen.dart';
 import 'package:onze_cofe_project/screens/auth/create_account_screen.dart';
-import 'package:onze_cofe_project/screens/welcome_screen/cart_screen.dart';
-import 'package:onze_cofe_project/screens/welcome_screen/welcome_screen.dart';
 import 'package:onze_cofe_project/setup/setup_init.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

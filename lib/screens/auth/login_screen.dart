@@ -5,9 +5,12 @@ import 'package:onze_cofe_project/components/custom_text/custom_text.dart';
 import 'package:onze_cofe_project/components/text_form_field/custom_text_form_field.dart';
 import 'package:onze_cofe_project/screens/auth/cubit/auth_cubit.dart';
 import 'package:onze_cofe_project/screens/auth/verify_screen.dart';
+import 'package:pinput/pinput.dart';
 
-class CreateAccountScreen extends StatelessWidget {
-  const CreateAccountScreen({super.key});
+class LoginScreen extends StatelessWidget {
+  const LoginScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +52,7 @@ class CreateAccountScreen extends StatelessWidget {
                         const Align(
                             alignment: Alignment.centerLeft,
                             child: CustomText(
-                                text: "Sign in",
+                                text: "Login",
                                 color: Color(0xffD7D2CB),
                                 size: 24)),
                         const SizedBox(
@@ -66,22 +69,9 @@ class CreateAccountScreen extends StatelessWidget {
                           height: 9,
                         ),
                         CustomTextFormField(
-                            controller: cubit.emailController,
-                            hintText: "Enter Your Email"),
-                        const SizedBox(
-                          height: 21,
+                          hintText: "Login",
+                          controller: cubit.logInController,
                         ),
-                        const Align(
-                          alignment: Alignment.centerLeft,
-                          child: CustomText(
-                              text: "Name", color: Color(0x72FFFFFF), size: 12),
-                        ),
-                        const SizedBox(
-                          height: 9,
-                        ),
-                        CustomTextFormField(
-                            controller: cubit.nameController,
-                            hintText: "Enter Your Name"),
                         const SizedBox(
                           height: 70,
                         ),
@@ -95,11 +85,11 @@ class CreateAccountScreen extends StatelessWidget {
                                       borderRadius:
                                           BorderRadius.circular(21.5))),
                               onPressed: () {
-                                cubit.signUp();
+                                cubit.signIn();
                               },
                               child: const Center(
-                                child: CustomText(
-                                    text: "Sign up",
+                                child: const CustomText(
+                                    text: "Sign in",
                                     color: Color(0xffF4F4F4),
                                     size: 12),
                               )),

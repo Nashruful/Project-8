@@ -13,9 +13,9 @@ class CartScreen extends StatelessWidget {
       create: (context) => CartCubit(),
       child: Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.white),
+          iconTheme: const IconThemeData(color: Colors.white),
           centerTitle: true,
-          title: Text(
+          title: const Text(
             "Cart",
             textAlign: TextAlign.center,
             style: TextStyle(
@@ -25,11 +25,11 @@ class CartScreen extends StatelessWidget {
             ),
           ),
           elevation: 0,
-          backgroundColor: Color.fromRGBO(139, 166, 177, 1),
+          backgroundColor: const Color.fromRGBO(139, 166, 177, 1),
         ),
-        backgroundColor: Color(0xFFEFEFEF),
+        backgroundColor: const Color(0xFFEFEFEF),
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
                 Color.fromRGBO(139, 166, 177, 1),
@@ -42,10 +42,10 @@ class CartScreen extends StatelessWidget {
           ),
           child: Column(
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               CartItem(), 
-              Spacer(),
-              Center(
+              const Spacer(),
+              const Center(
                 child: Divider(
                   color: Colors.white70,
                   thickness: 2.5,
@@ -56,20 +56,20 @@ class CartScreen extends StatelessWidget {
               BlocBuilder<CartCubit, CartState>(
                 builder: (context, state) {
                   if (state is CartLoading) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else if (state is CartSuccess) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
+                          const Text(
                             "Total",
                             style: TextStyle(color: Colors.white, fontSize: 18),
                           ),
                           Text(
                             "${state.totalPrice.toStringAsFixed(2)} SAR",
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 18,
                             ),
@@ -81,14 +81,14 @@ class CartScreen extends StatelessWidget {
                     return Center(
                       child: Text(
                         state.message,
-                        style: TextStyle(color: Colors.red),
+                        style: const TextStyle(color: Colors.red),
                       ),
                     );
                   }
                   return Container();
                 },
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: ElevatedButton(
@@ -96,13 +96,13 @@ class CartScreen extends StatelessWidget {
                     Navigator.of(context).push(createRouteToCart());
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xFFA8483D),
+                    backgroundColor: const Color(0xFFA8483D),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                   ),
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       "Place Order",
                       style: TextStyle(color: Colors.white, fontSize: 18),

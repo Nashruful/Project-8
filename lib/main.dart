@@ -1,7 +1,6 @@
 import 'package:device_preview/device_preview.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:onze_cofe_project/screens/welcome_screen/welcome_screen.dart';
+import 'package:onze_cofe_project/screens/auth/create_account_screen.dart';
 import 'package:onze_cofe_project/setup/setup_init.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -15,8 +14,8 @@ void main() async {
   );
   setup();
   runApp(DevicePreview(
-    enabled: !kReleaseMode,
-    builder: (context) => MainApp(), // Wrap your app
+    enabled: false,
+    builder: (context) => const MainApp(), // Wrap your app
   ));
 }
 
@@ -27,7 +26,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Poppins'),
-      home: WelcomeScreen(),
+      home: CreateAccountScreen(),
     );
   }
 }

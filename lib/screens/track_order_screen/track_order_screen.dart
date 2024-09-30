@@ -10,7 +10,7 @@ class TrackOrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int index = 1;
+    int index = 0;
     return CustomBackgroundContainer(
       child: Scaffold(
           backgroundColor: Colors.transparent,

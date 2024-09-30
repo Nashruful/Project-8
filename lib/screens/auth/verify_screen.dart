@@ -4,37 +4,20 @@ import 'package:onze_cofe_project/components/containers/custom_background_contai
 import 'package:onze_cofe_project/components/custom_text/custom_text.dart';
 import 'package:onze_cofe_project/components/text_form_field/custom_text_form_field.dart';
 import 'package:onze_cofe_project/screens/auth/cubit/auth_cubit.dart';
-import 'package:onze_cofe_project/screens/auth/verify_screen.dart';
+import 'package:pinput/pinput.dart';
 
-class CreateAccountScreen extends StatelessWidget {
-  const CreateAccountScreen({super.key});
+class VerifyScreen extends StatelessWidget {
+  const VerifyScreen({super.key, required this.email});
+  final String email;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AuthCubit(),
       child: Builder(builder: (context) {
-        final cubit = context.read<AuthCubit>();
         return BlocListener<AuthCubit, AuthStatee>(
           listener: (context, state) {
-            if (state is LoadingState) {
-              showDialog(
-                  context: context,
-                  builder: (context) => const AlertDialog(
-                        content: CircularProgressIndicator(),
-                      ));
-            }
-            if (state is SuccessState) {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          VerifyScreen(email: cubit.emailController.text)));
-            }
-            if (state is ErrorState) {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(state.msg)));
-            }
+            // TODO: implement listener
           },
           child: Scaffold(
             body: CustomBackgroundContainer(
@@ -46,11 +29,11 @@ class CreateAccountScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
                       children: [
-                        const Align(
+                        Align(
                             alignment: Alignment.centerLeft,
                             child: CustomText(
-                                text: "Sign in",
-                                color: Color(0xffD7D2CB),
+                                text: "Verify $email",
+                                color: const Color(0xffD7D2CB),
                                 size: 24)),
                         const SizedBox(
                           height: 40,
@@ -65,23 +48,9 @@ class CreateAccountScreen extends StatelessWidget {
                         const SizedBox(
                           height: 9,
                         ),
-                        CustomTextFormField(
-                            controller: cubit.emailController,
-                            hintText: "Enter Your Email"),
-                        const SizedBox(
-                          height: 21,
+                        const Pinput(
+                          length: 6,
                         ),
-                        const Align(
-                          alignment: Alignment.centerLeft,
-                          child: CustomText(
-                              text: "Name", color: Color(0x72FFFFFF), size: 12),
-                        ),
-                        const SizedBox(
-                          height: 9,
-                        ),
-                        CustomTextFormField(
-                            controller: cubit.nameController,
-                            hintText: "Enter Your Name"),
                         const SizedBox(
                           height: 70,
                         ),
@@ -94,12 +63,10 @@ class CreateAccountScreen extends StatelessWidget {
                                   shape: RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.circular(21.5))),
-                              onPressed: () {
-                                cubit.signUp();
-                              },
+                              onPressed: () {},
                               child: const Center(
-                                child: CustomText(
-                                    text: "Sign up",
+                                child: const CustomText(
+                                    text: "Verify OTP",
                                     color: Color(0xffF4F4F4),
                                     size: 12),
                               )),

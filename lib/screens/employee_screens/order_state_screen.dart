@@ -10,7 +10,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../components/containers/custom_background_container.dart';
 
 class OrderStateScreen extends StatelessWidget {
-  const OrderStateScreen({super.key});
+  const OrderStateScreen({super.key, required this.orderID});
+  final int orderID;
 
   String formatTime(int seconds) {
     int minutes = (seconds / 60).floor();
@@ -23,16 +24,17 @@ class OrderStateScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => OrderStateBloc(),
       child: Builder(builder: (context) {
+        context.read<OrderStateBloc>().add(GetOrdersItemEvent());
         return CustomBackgroundContainer(
           child: Scaffold(
               backgroundColor: Colors.transparent,
-              appBar: const CustomAppBar(text: "Order\n#1234"),
+              appBar: CustomAppBar(text: "Order\n #${orderID.toString()}"),
               body: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: BlocBuilder<OrderStateBloc, OrderStateState>(
                   builder: (context, state) {
-                    if (state is OrderStateInitial) {
+                    if (state is OrdersItemState) {
                       return Column(
                         children: [
                           Expanded(
@@ -47,26 +49,17 @@ class OrderStateScreen extends StatelessWidget {
                                 const SizedBox(
                                   height: 40,
                                 ),
-                                CustomOrderContainer(
-                                    image: CircleAvatar(
-                                      radius: 35,
-                                      child: Image.asset(
-                                        "assets/images/Cappuccino1.png",
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-                                    title: "Cappuccino",
-                                    subtitle: "12 SAR"),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                CustomOrderContainer(
-                                    image: Image.asset(
-                                        "assets/images/Cappuccino1.png"),
-                                    title: "Cappuccino",
-                                    subtitle: "12 SAR"),
-                                const SizedBox(
-                                  height: 40,
+                                Column(
+                                  children: state.orderItem.map((item) {
+                                    return CustomOrderContainer(
+                                        image: Image.network(
+                                          item['image_url'],
+                                          fit: BoxFit.contain,
+                                        ),
+                                        title: item['name'],
+                                        subtitle:
+                                            "${item['price'].toString()} SAR");
+                                  }).toList(),
                                 ),
                               ],
                             ),
@@ -144,7 +137,7 @@ class OrderStateScreen extends StatelessWidget {
                           )
                         ],
                       );
-                    } else {
+                    } else if (state is StoppedState) {
                       return Column(
                         children: [
                           Expanded(
@@ -192,6 +185,11 @@ class OrderStateScreen extends StatelessWidget {
                             ),
                           )
                         ],
+                      );
+                    } else {
+                      return Center(
+                        child: Lottie.asset(
+                            "assets/json/Animation - 1727813605870.json"),
                       );
                     }
                   },

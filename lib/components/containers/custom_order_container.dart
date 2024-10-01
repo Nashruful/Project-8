@@ -11,25 +11,32 @@ class CustomOrderContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 350,
-      height: 120,
-      decoration: BoxDecoration(
-          color: const Color(0xffFFFFFF).withOpacity(0.5),
-          borderRadius: BorderRadius.circular(20)),
-      child: Center(
-        child: ListTile(
-          leading: CircleAvatar(radius: 35, child: image),
-          title: CustomText(
-            text: title,
-            color: Color(0xff3D6B7D),
-            size: 20,
-            weight: FontWeight.w600,
+    return Column(
+      children: [
+        Container(
+          width: 350,
+          height: 120,
+          decoration: BoxDecoration(
+              color: const Color(0xffFFFFFF).withOpacity(0.5),
+              borderRadius: BorderRadius.circular(20)),
+          child: Center(
+            child: ListTile(
+              leading: image,
+              title: CustomText(
+                text: title,
+                color: Color(0xff3D6B7D),
+                size: 20,
+                weight: FontWeight.w600,
+              ),
+              subtitle: CustomText(
+                  text: subtitle, color: Color(0xfff3D6B7D), size: 16),
+            ),
           ),
-          subtitle:
-              CustomText(text: subtitle, color: Color(0xfff3D6B7D), size: 16),
         ),
-      ),
+        SizedBox(
+          height: 10,
+        )
+      ],
     );
   }
 }

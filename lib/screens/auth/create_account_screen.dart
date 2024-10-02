@@ -4,7 +4,8 @@ import 'package:onze_cofe_project/components/containers/custom_background_contai
 import 'package:onze_cofe_project/components/custom_text/custom_text.dart';
 import 'package:onze_cofe_project/components/text_form_field/custom_text_form_field.dart';
 import 'package:onze_cofe_project/screens/auth/cubit/auth_cubit.dart';
-import 'package:onze_cofe_project/screens/auth/verify_screen.dart';
+import 'package:onze_cofe_project/screens/auth/first_time_verify.dart';
+import 'package:onze_cofe_project/screens/auth/login_screen.dart';
 
 class CreateAccountScreen extends StatelessWidget {
   const CreateAccountScreen({super.key});
@@ -28,10 +29,13 @@ class CreateAccountScreen extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) =>
-                          VerifyScreen(email: cubit.emailController.text)));
+                      builder: (context) => FirstTimeVerify(
+                          firstName: cubit.nameController.text,
+                          email: cubit.emailController.text)));
             }
             if (state is ErrorState) {
+              Navigator.pop(context);
+
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(state.msg)));
             }
@@ -49,7 +53,7 @@ class CreateAccountScreen extends StatelessWidget {
                         const Align(
                             alignment: Alignment.centerLeft,
                             child: CustomText(
-                                text: "Sign in",
+                                text: "Sign Up",
                                 color: Color(0xffD7D2CB),
                                 size: 24)),
                         const SizedBox(
@@ -82,6 +86,35 @@ class CreateAccountScreen extends StatelessWidget {
                         CustomTextFormField(
                             controller: cubit.nameController,
                             hintText: "Enter Your Name"),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const CustomText(
+                                text: "Already have an account?",
+                                color: Color(0x71FFFFFF),
+                                size: 12),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const LoginScreen()));
+                              },
+                              child: const CustomText(
+                                  text: "Login",
+                                  color: Color(0xffA8483D),
+                                  size: 12),
+                            )
+                          ],
+                        ),
                         const SizedBox(
                           height: 70,
                         ),

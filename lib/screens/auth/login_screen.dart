@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onze_cofe_project/components/containers/custom_background_container.dart';
 import 'package:onze_cofe_project/components/custom_text/custom_text.dart';
 import 'package:onze_cofe_project/components/text_form_field/custom_text_form_field.dart';
+import 'package:onze_cofe_project/screens/auth/create_account_screen.dart';
 import 'package:onze_cofe_project/screens/auth/cubit/auth_cubit.dart';
 import 'package:onze_cofe_project/screens/auth/verify_screen.dart';
-import 'package:pinput/pinput.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({
@@ -28,13 +28,16 @@ class LoginScreen extends StatelessWidget {
                       ));
             }
             if (state is SuccessState) {
+              Navigator.pop(context);
+
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          VerifyScreen(email: cubit.emailController.text)));
+                          VerifyScreen(email: cubit.logInController.text)));
             }
             if (state is ErrorState) {
+              Navigator.pop(context);
               ScaffoldMessenger.of(context)
                   .showSnackBar(SnackBar(content: Text(state.msg)));
             }
@@ -71,6 +74,33 @@ class LoginScreen extends StatelessWidget {
                         CustomTextFormField(
                           hintText: "Login",
                           controller: cubit.logInController,
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const CustomText(
+                                text: "Don’t have an account?",
+                                color: Color(0x71FFFFFF),
+                                size: 12),
+                            const SizedBox(
+                              width: 4,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const CreateAccountScreen()));
+                              },
+                              child: const CustomText(
+                                  text: "Sign up",
+                                  color: Color(0xffA8483D),
+                                  size: 12),
+                            )
+                          ],
                         ),
                         const SizedBox(
                           height: 70,

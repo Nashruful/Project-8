@@ -43,14 +43,17 @@ class OrderStateBloc extends Bloc<OrderStateEvent, OrderStateState> {
             .select('order_id')
             .eq('user_id', 'a57e1a5d-11ea-4237-a85c-f9504db3ad51');
 
+            final userName = await supabase.from('users').select('name').eq('user_id', 'a57e1a5d-11ea-4237-a85c-f9504db3ad51');
+
         if (orderID.isNotEmpty) {
           final orderIDValue = orderID[0]['order_id'];
+          
           final productIDResponse = await supabase
               .from("order_items")
               .select('product_id')
               .eq('order_id', orderIDValue);
 
-          final productIDs =
+          final productIDs = 
               productIDResponse.map((item) => item['product_id']).toList();
 
           final orderItems = [];
@@ -63,7 +66,7 @@ class OrderStateBloc extends Bloc<OrderStateEvent, OrderStateState> {
           }
 
           emit(OrdersItemState(
-              orderItem: List<Map<String, dynamic>>.from(orderItems)));
+              orderItem: List<Map<String, dynamic>>.from(orderItems), userName: userName[0]['name']));
         } else {
           emit(ErrorState(msg: 'No order ID found'));
         }
@@ -77,8 +80,9 @@ class OrderStateBloc extends Bloc<OrderStateEvent, OrderStateState> {
     on<GetOrdersEvent>((event, emit) async {
       emit(LoadingState());
       try {
-        final response = await supabase.from('orders').select('order_id');
-        emit(OrdersState(orders: response));
+        final response = await supabase.from('orders').select('order_id, status');
+        final orderStatusValue = response.map((state)=> state['status']).toList();
+        emit(OrdersState(orders: response, status: orderStatusValue));        
       } catch (e) {
         emit(ErrorState(msg: e.toString()));
       }

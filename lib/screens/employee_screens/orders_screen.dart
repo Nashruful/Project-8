@@ -54,9 +54,11 @@ class OrdersScreen extends StatelessWidget {
                       "assets/json/Animation - 1727813605870.json"),
                 );
               } else if (state is ErrorState) {
+                print(state.msg);
                 return Center(child: Text('Error: ${state.msg}'));
               } else if (state is OrdersState) {
                 final orders = state.orders;
+
                 if (orders.isEmpty) {
                   return const Center(child: Text('No Orders Found'));
                 }
@@ -69,9 +71,27 @@ class OrdersScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final order = orders[index];
                     final orderId = order['order_id'];
+                    final status = state.status;
+                    print(state.status);
+                    if (status[0] == "Done") {
+                      return CustomOrdersListTile(
+                        text: "Order #$orderId",
+                        icon: Icons.check,
+                        color: const Color(0xffD7D1CA),
+                        onPressed: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => OrderStateScreen(
+                              orderID: orderId,
+                            ),
+                          ));
+                        },
+                      );
+                    }
                     return CustomOrdersListTile(
                       text: "Order #$orderId",
-                      icon: Icons.watch_later_outlined,
+                      icon: status[0] == "Received"
+                          ? Icons.circle
+                          : Icons.watch_later_outlined,
                       color: const Color(0xffD7D1CA),
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(

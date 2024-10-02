@@ -40,8 +40,8 @@ class OrderStateScreen extends StatelessWidget {
                           Expanded(
                             child: ListView(
                               children: [
-                                const CustomText(
-                                  text: "Name: aaaaa",
+                                 CustomText(
+                                  text: "Name: ${state.userName}",
                                   color: Color(0xffF4F4F4),
                                   size: 20,
                                   weight: FontWeight.w600,

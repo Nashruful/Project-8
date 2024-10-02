@@ -20,12 +20,14 @@ final class SuccessState extends OrderStateState {
 
 final class OrdersItemState extends OrderStateState {
   final List<Map<String, dynamic>> orderItem;
-  OrdersItemState({required this.orderItem});
+  final String userName;
+  OrdersItemState({required this.orderItem, required this.userName} );
 }
 
 final class OrdersState extends OrderStateState {
   final List orders;
-  OrdersState({required this.orders});
+  final List status;
+  OrdersState({required this.orders, required this.status});
 }
 
 final class ErrorState extends OrderStateState {

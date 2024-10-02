@@ -32,7 +32,7 @@ class LoginScreen extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) =>
-                          VerifyScreen(email: cubit.emailController.text)));
+                          VerifyScreen(email: cubit.logInController.text)));
             }
             if (state is ErrorState) {
               ScaffoldMessenger.of(context)

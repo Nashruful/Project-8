@@ -18,10 +18,6 @@ class AuthCubit extends Cubit<AuthStatee> {
   signUp() async {
     emit(LoadingState());
     try {
-      await supabase
-          .from("users")
-          .insert({"email": emailController.text, "name": nameController.text});
-
       await supabase.auth.signInWithOtp(email: emailController.text);
       emit(SuccessState());
     } on AuthException catch (e) {
@@ -47,13 +43,20 @@ class AuthCubit extends Cubit<AuthStatee> {
     }
   }
 
-  verifyOTP() async {
+  verifyOTP({required String email, required String otp}) async {
     emit(LoadingState());
     try {
-      await supabase.auth.verifyOTP(
-          type: OtpType.magiclink,
-          email: logInController.text,
-          token: otpController.text);
+      await supabase.auth.signOut();
+      print(supabase.auth.currentSession?.user.lastSignInAt);
+      // await supabase.auth
+      //     .verifyOTP(type: OtpType.signup, email: email, token: otp);
+
+      // await supabase.auth
+      //     .verifyOTP(type: OtpType.magiclink, email: email, token: otp);
+
+      await supabase
+          .from("users")
+          .insert({"email": email, "name": nameController.text});
       emit(SuccessState());
     } on AuthException catch (e) {
       emit(ErrorState(msg: e.message));

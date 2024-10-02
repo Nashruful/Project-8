@@ -13,17 +13,20 @@ class AuthCubit extends Cubit<AuthStatee> {
   TextEditingController emailController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController logInController = TextEditingController();
-  TextEditingController otpController = TextEditingController();
 
   signUp() async {
     emit(LoadingState());
     try {
-      await supabase
+      final response = await supabase
           .from("users")
-          .insert({"email": emailController.text, "name": nameController.text});
-
-      await supabase.auth.signInWithOtp(email: emailController.text);
-      emit(SuccessState());
+          .select()
+          .eq("email", emailController.text);
+      if (response.isNotEmpty) {
+        emit(ErrorState(msg: "Account Already registered."));
+      } else {
+        await supabase.auth.signInWithOtp(email: emailController.text);
+        emit(SuccessState());
+      }
     } on AuthException catch (e) {
       emit(ErrorState(msg: e.message));
     } on PostgrestException catch (_) {
@@ -36,7 +39,33 @@ class AuthCubit extends Cubit<AuthStatee> {
   signIn() async {
     emit(LoadingState());
     try {
-      await supabase.auth.signInWithOtp(email: logInController.text);
+      final response = await supabase
+          .from("users")
+          .select()
+          .eq("email", logInController.text);
+      if (response.isEmpty) {
+        emit(ErrorState(msg: "Account not found."));
+      } else {
+        await supabase.auth.signInWithOtp(email: logInController.text);
+        emit(SuccessState());
+      }
+    } on AuthException catch (e) {
+      emit(ErrorState(msg: e.message));
+    } on PostgrestException catch (e) {
+      emit(ErrorState(msg: e.message));
+    } catch (e) {
+      emit(ErrorState(msg: e.toString()));
+    }
+  }
+
+  verifyOTP({required String otp, required String email}) async {
+    emit(LoadingState());
+    try {
+      await supabase.auth
+          .verifyOTP(type: OtpType.magiclink, email: email, token: otp);
+
+      await getIt.get<DataLayer>().getUserInfo();
+
       emit(SuccessState());
     } on AuthException catch (e) {
       emit(ErrorState(msg: e.message));
@@ -47,13 +76,21 @@ class AuthCubit extends Cubit<AuthStatee> {
     }
   }
 
-  verifyOTP() async {
+  firstTimeVerifyOTP(
+      {required String otp,
+      required String email,
+      required String name}) async {
     emit(LoadingState());
     try {
-      await supabase.auth.verifyOTP(
-          type: OtpType.magiclink,
-          email: logInController.text,
-          token: otpController.text);
+      final data = await supabase.auth
+          .verifyOTP(type: OtpType.signup, email: email, token: otp);
+
+      await supabase
+          .from("users")
+          .insert({"user_id": data.user?.id, "email": email, "name": name});
+
+      await getIt.get<DataLayer>().getUserInfo();
+
       emit(SuccessState());
     } on AuthException catch (e) {
       emit(ErrorState(msg: e.message));

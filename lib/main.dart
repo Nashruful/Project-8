@@ -2,7 +2,6 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:onze_cofe_project/screens/auth/create_account_screen.dart';
 import 'package:onze_cofe_project/screens/auth/login_screen.dart';
-import 'package:onze_cofe_project/screens/auth/verify_screen.dart';
 import 'package:onze_cofe_project/setup/setup_init.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

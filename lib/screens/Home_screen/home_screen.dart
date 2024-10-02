@@ -2,15 +2,18 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:onze_cofe_project/components/containers/custom_background_container.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:onze_cofe_project/data_layer/data_layer.dart';
+import 'package:onze_cofe_project/setup/setup_init.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xff3D6B7D), // --------- for now -------
       appBar: AppBar(
+        title: Text("Hello ${getIt.get<DataLayer>().currentUserInfo?['name']}"),
         //------------------ or put custom appbar ---------------
 
         iconTheme: const IconThemeData(color: Color(0xffF4F4F4)),
@@ -84,16 +87,16 @@ class HomeScreen extends StatelessWidget {
                 layout: SwiperLayout.CUSTOM,
                 customLayoutOption:
                     CustomLayoutOption(startIndex: -1, stateCount: 3)
-                      ..addRotate([-90.0 / 180, 0.0, 90.0 / 180])
+                      ..addRotate([-45.0 / 180, 0.0, 45.0 / 180])
                       ..addTranslate([
-                        Offset(-490.0, -30.0),
-                        Offset(0.0, 0.0),
-                        Offset(490.0, -30.0)
+                        const Offset(-490.0, -30.0),
+                        const Offset(0.0, 0.0),
+                        const Offset(490.0, 30.0)
                       ]),
                 itemWidth: double.infinity,
                 itemHeight: 600,
                 itemBuilder: (context, index) {
-                  return CoffeeCard(
+                  return const CoffeeCard(
                     name: 'Cappuccino',
                     price: 12,
                     imgURL:
@@ -159,13 +162,13 @@ class CoffeeCard extends StatelessWidget {
           ],
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(20, 400, 0, 0),
+          padding: const EdgeInsets.fromLTRB(20, 400, 0, 0),
           child: Positioned(
             child: ElevatedButton(
               style: ButtonStyle(
                   foregroundColor: MaterialStateProperty.all(Colors.white),
                   backgroundColor: MaterialStateProperty.all(
-                      Color(0xff3D6B7D)) //whats the new way for this?
+                      const Color(0xff3D6B7D)) //whats the new way for this?
                   ),
               onPressed: () {
                 //add to cart

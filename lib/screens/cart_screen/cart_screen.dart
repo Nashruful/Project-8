@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onze_cofe_project/components/items/cart_Item.dart';
-import 'package:onze_cofe_project/screens/order_notification_screen.dart';
+import 'package:onze_cofe_project/screens/notification_screen/order_notification_screen.dart';
 
 
 import 'cubit/cart_cubit.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:onze_cofe_project/components/item/cartItem.dart';
+import 'package:onze_cofe_project/components/items/cart_Item.dart';
 import 'package:onze_cofe_project/screens/order_notification_screen.dart';
 
 

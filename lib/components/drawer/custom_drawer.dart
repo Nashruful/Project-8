@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:onze_cofe_project/screens/cart_screen/cart_screen.dart';
+import 'package:onze_cofe_project/screens/contact_us_screen/contact_us.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
@@ -40,7 +41,9 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 createDrawerItem(
                   text: 'Contact Us',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> ContactUsPage()));
+                  },
                 ),
                 createDrawerItem(
                   text: 'Sign out',

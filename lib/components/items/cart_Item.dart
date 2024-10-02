@@ -39,17 +39,16 @@ class CartItem extends StatelessWidget {
                   SizedBox(height: 5),
                   BlocBuilder<CartCubit, CartState>(
                     builder: (context, state) {
-                     
                       if (state is CartSuccess) {
                         return Text(
                           "${state.unitPrice.toStringAsFixed(2)} SAR",
                           style: TextStyle(
-                            color: Color(0xff3D6B7D)
-,                            fontSize: 16,
+                            color: Color(0xff3D6B7D),
+                            fontSize: 16,
                           ),
                         );
                       }
-                     
+
                       return Container();
                     },
                   ),
@@ -81,7 +80,7 @@ class CartItem extends StatelessWidget {
                             style: TextStyle(color: Colors.white),
                           );
                         }
-                       
+
                         return Container();
                       },
                     ),

@@ -3,7 +3,9 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:onze_cofe_project/screens/drawer_screen/custom_drawer.dart';
+import 'package:onze_cofe_project/components/drawer/custom_drawer.dart';
+import 'package:onze_cofe_project/screens/cart_screen/cart_screen.dart';
+import 'package:onze_cofe_project/screens/contact_us_screen/contact_us.dart';
 
 class DrawerPage extends StatelessWidget {
   @override
@@ -18,7 +20,8 @@ class DrawerPage extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () {
-                  Navigator.of(context).push(createRouteToCart());
+                //  Navigator.of(context).push(ContactUsPage());
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> CartScreen()));
                 },
                 icon: Image.asset(
                   'assets/images/cart.png',

@@ -8,12 +8,33 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final supabase = getIt.get<DataLayer>().supabase;
+  String? selectedFilter = 'All';
   List<Map<String, dynamic>> items = [];
   HomeBloc() : super(HomeInitial()) {
     on<LoadScreenEvent>((event, emit) async {
       emit(LoadingState());
       try {
         final productIDResponse = await supabase.from("product").select();
+
+        items = List<Map<String, dynamic>>.from(productIDResponse);
+
+        emit(SuccessState());
+      } on FormatException catch (e) {
+        emit(ErrorState());
+        // emit(ErrorState(msg: e.message));
+      } catch (e) {
+        emit(ErrorState());
+        // emit(ErrorState(msg: e.toString()));
+      }
+    });
+    on<FilterSelectedEvent>((event, emit) async {
+     
+      emit(LoadingState());
+      try {
+        final productIDResponse = await supabase
+            .from("product")
+            .select()
+            .eq("category", event.selectedFilter);
 
         items = List<Map<String, dynamic>>.from(productIDResponse);
 

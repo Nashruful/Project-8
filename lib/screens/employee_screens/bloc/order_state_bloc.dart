@@ -18,7 +18,9 @@ class OrderStateBloc extends Bloc<OrderStateEvent, OrderStateState> {
 
     on<StartTimerEvent>((event, emit) async {
       final orderID = event.orderID;
-      await supabase.from('orders').update({'status': 'In progress'}).eq('order_id', orderID );
+      await supabase
+          .from('orders')
+          .update({'status': 'In progress'}).eq('order_id', orderID);
       startTimer(60);
       emit(RunningState(seconds: 60));
     });
@@ -34,9 +36,12 @@ class OrderStateBloc extends Bloc<OrderStateEvent, OrderStateState> {
       }
     });
 
-    on<StopTimerEvent>((event, emit) async{
-      timer?.cancel();final orderID = event.orderID;
-      await supabase.from('orders').update({'status': 'Done'}).eq('order_id', orderID );
+    on<StopTimerEvent>((event, emit) async {
+      timer?.cancel();
+      final orderID = event.orderID;
+      await supabase
+          .from('orders')
+          .update({'status': 'Done'}).eq('order_id', orderID);
     });
 
     on<GetOrdersItemEvent>((event, emit) async {
@@ -58,7 +63,7 @@ class OrderStateBloc extends Bloc<OrderStateEvent, OrderStateState> {
         final orders = await supabase
             .from('orders')
             .select('*, users!orders_user_id_fkey(name)');
-            
+
         final orderStatus = orders.map((state) => state['status']).toList();
         emit(OrdersState(orders: orders, status: orderStatus));
       } catch (e) {
@@ -82,7 +87,7 @@ class OrderStateBloc extends Bloc<OrderStateEvent, OrderStateState> {
   Future<List<Map<String, dynamic>>> getOrderItems(int orderID) async {
     try {
       /* 
-    * join
+    * join tables
     * select all column from orders_items and image_url, name and price from product
     */
       final orderItems = await supabase

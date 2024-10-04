@@ -55,15 +55,19 @@ class OrderStateScreen extends StatelessWidget {
                                 ),
                                 Column(
                                   children: state.orderItem.map((item) {
+                                    final totalPrice = item['product']['price'] * item['quantity'];
                                     print("Item: $item");
                                     return CustomOrderContainer(
-                                        image: Image.network(
-                                          item['product']['image_url'],
-                                          fit: BoxFit.contain,
-                                        ),
-                                        title: item['product']['name'],
-                                        subtitle:
-                                            "${item['product']['price'].toString()} SAR");
+                                      image: Image.network(
+                                        item['product']['image_url'],
+                                        fit: BoxFit.contain,
+                                      ),
+                                      title: item['product']['name'],
+                                      subtitle:
+                                          "${totalPrice.toString()} SAR",
+                                      quantity:
+                                          "X ${item['quantity'].toString()}",
+                                    );
                                   }).toList(),
                                 ),
                               ],
@@ -132,6 +136,7 @@ class OrderStateScreen extends StatelessWidget {
                                   context
                                       .read<OrderStateBloc>()
                                       .add(StopTimerEvent(orderID: orderID));
+                                  Navigator.pop(context);
                                 },
                                 child: const CustomText(
                                     text: "Done",
@@ -182,8 +187,10 @@ class OrderStateScreen extends StatelessWidget {
                               child: CustomElevatedButton(
                                 backgroundColor: const Color(0xffA8483D),
                                 onPressed: () {
-                                  context.read<OrderStateBloc>()
+                                  context
+                                      .read<OrderStateBloc>()
                                       .add(StopTimerEvent(orderID: orderID));
+                                  Navigator.pop(context);
                                 },
                                 child: const CustomText(
                                     text: "Done",

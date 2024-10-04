@@ -24,7 +24,7 @@ class OrdersScreen extends StatelessWidget {
                 text: "Orders",
                 color: Color(0xff3D6B7D),
                 size: 20,
-                weight: FontWeight.w500,
+                weight: FontWeight.w600,
               ),
               leading: IconButton(
                   onPressed: () {}, icon: const Icon(Icons.menu_rounded)),
@@ -71,88 +71,85 @@ class OrdersScreen extends StatelessWidget {
                     children: [
                       Column(
                         children: orders
-                              .where((order) =>
-                                  status[orders.indexOf(order)] != "Done")
-                              .map((order) {
-                            final orderId = order['order_id'];
-                            final userName = order['users']['name'];
-                            final orderStatus = status[orders.indexOf(order)];
-                            IconData icon;
-                            switch (orderStatus) {
-                              case "Received":
-                                icon = Icons.circle;
-                                break;
-                              case "In progress":
-                                icon = Icons.watch_later_outlined;
-                                break;
-                              default:
-                                icon = Icons.check;
-                            }
-                            return Column(
-                              children: [
-                                CustomOrdersListTile(
-                                  text: "Order #$orderId",
-                                  icon: icon,
-                                  color: const Color(0xffD7D1CA),
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) => OrderStateScreen(
-                                        orderID: orderId,
-                                        userName: userName,
-                                      ),
-                                    ));
-                                  },
-                                ),
-                                const Divider(
-                                  color: Color(0xffD7D1CA),
-                                ),
-                              ],
-                            );
-                          }).toList(),
+                            .where((order) =>
+                                status[orders.indexOf(order)] != "Done")
+                            .map((order) {
+                          final orderId = order['order_id'];
+                          final userName = order['users']['name'];
+                          final orderStatus = status[orders.indexOf(order)];
+                          IconData icon;
+                          switch (orderStatus) {
+                            case "Received":
+                              icon = Icons.circle;
+                              break;
+                            case "In progress":
+                              icon = Icons.watch_later_outlined;
+                              break;
+                            default:
+                              icon = Icons.check;
+                          }
+                          return Column(
+                            children: [
+                              CustomOrdersListTile(
+                                text: "Order #$orderId",
+                                icon: icon,
+                                color: const Color(0xffD7D1CA),
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => OrderStateScreen(
+                                      orderID: orderId,
+                                      userName: userName,
+                                    ),
+                                  ));
+                                },
+                              ),
+                              const Divider(
+                                color: Color(0xffD7D1CA),
+                              ),
+                            ],
+                          );
+                        }).toList(),
                       ),
                       Column(
                         children: orders
-                              .where((order) =>
-                                  status[orders.indexOf(order)] == "Done")
-                              .map((order) {
-                            final orderId = order['order_id'];
-                            final userName = order['users']['name'];
-                            final orderStatus = status[orders.indexOf(order)];
-                            IconData icon;
-                            switch (orderStatus) {
-                              case "Received":
-                                icon = Icons.circle;
-                                break;
-                              case "In progress":
-                                icon = Icons.watch_later_outlined;
-                                break;
-                              default:
-                                icon = Icons.check;
-                            }
-                            return Column(
-                              children: [
-                                CustomOrdersListTile(
-                                  text: "Order #$orderId",
-                                  icon: icon,
-                                  color: const Color(0xffD7D1CA),
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (context) => OrderStateScreen(
-                                        orderID: orderId,
-                                        userName: userName,
-                                      ),
-                                    ));
-                                  },
-                                ),
-                                const Divider(
-                                  color: Color(0xffD7D1CA),
-                                ),
-                              ],
-                            );
-                          }).toList(),
-                        
+                            .where((order) =>
+                                status[orders.indexOf(order)] == "Done")
+                            .map((order) {
+                          final orderId = order['order_id'];
+                          final userName = order['users']['name'];
+                          final orderStatus = status[orders.indexOf(order)];
+                          IconData icon;
+                          switch (orderStatus) {
+                            case "Received":
+                              icon = Icons.circle;
+                              break;
+                            case "In progress":
+                              icon = Icons.watch_later_outlined;
+                              break;
+                            default:
+                              icon = Icons.check;
+                          }
+                          return Column(
+                            children: [
+                              CustomOrdersListTile(
+                                text: "Order #$orderId",
+                                icon: icon,
+                                color: const Color(0xffD7D1CA),
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => OrderStateScreen(
+                                      orderID: orderId,
+                                      userName: userName,
+                                    ),
+                                  ));
+                                },
+                              ),
+                              const Divider(
+                                color: Color(0xffD7D1CA),
+                              ),
+                            ],
+                          );
+                        }).toList(),
                       ),
                     ],
                   ),

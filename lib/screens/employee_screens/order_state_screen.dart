@@ -10,8 +10,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../components/containers/custom_background_container.dart';
 
 class OrderStateScreen extends StatelessWidget {
-  const OrderStateScreen({super.key, required this.orderID});
+  const OrderStateScreen(
+      {super.key, required this.orderID, required this.userName});
   final int orderID;
+  final String userName;
 
   String formatTime(int seconds) {
     int minutes = (seconds / 60).floor();
@@ -24,7 +26,9 @@ class OrderStateScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => OrderStateBloc(),
       child: Builder(builder: (context) {
-        context.read<OrderStateBloc>().add(GetOrdersItemEvent());
+        context
+            .read<OrderStateBloc>()
+            .add(GetOrdersItemEvent(orderID: orderID));
         return CustomBackgroundContainer(
           child: Scaffold(
               backgroundColor: Colors.transparent,
@@ -40,8 +44,8 @@ class OrderStateScreen extends StatelessWidget {
                           Expanded(
                             child: ListView(
                               children: [
-                                const CustomText(
-                                  text: "Name: aaaaa",
+                                CustomText(
+                                  text: "Name: $userName",
                                   color: Color(0xffF4F4F4),
                                   size: 20,
                                   weight: FontWeight.w600,
@@ -51,14 +55,19 @@ class OrderStateScreen extends StatelessWidget {
                                 ),
                                 Column(
                                   children: state.orderItem.map((item) {
+                                    final totalPrice = item['product']['price'] * item['quantity'];
+                                    print("Item: $item");
                                     return CustomOrderContainer(
-                                        image: Image.network(
-                                          item['image_url'],
-                                          fit: BoxFit.contain,
-                                        ),
-                                        title: item['name'],
-                                        subtitle:
-                                            "${item['price'].toString()} SAR");
+                                      image: Image.network(
+                                        item['product']['image_url'],
+                                        fit: BoxFit.contain,
+                                      ),
+                                      title: item['product']['name'],
+                                      subtitle:
+                                          "${totalPrice.toString()} SAR",
+                                      quantity:
+                                          "X ${item['quantity'].toString()}",
+                                    );
                                   }).toList(),
                                 ),
                               ],
@@ -73,7 +82,7 @@ class OrderStateScreen extends StatelessWidget {
                                 onPressed: () {
                                   context
                                       .read<OrderStateBloc>()
-                                      .add(StartTimerEvent());
+                                      .add(StartTimerEvent(orderID: orderID));
                                 },
                                 child: const CustomText(
                                     text: "Start",
@@ -91,8 +100,8 @@ class OrderStateScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const CustomText(
-                                  text: "Name: aaaaa",
+                                CustomText(
+                                  text: "Name: $userName",
                                   color: Color(0xffF4F4F4),
                                   size: 20,
                                   weight: FontWeight.w600,
@@ -126,7 +135,8 @@ class OrderStateScreen extends StatelessWidget {
                                 onPressed: () {
                                   context
                                       .read<OrderStateBloc>()
-                                      .add(StopTimerEvent());
+                                      .add(StopTimerEvent(orderID: orderID));
+                                  Navigator.pop(context);
                                 },
                                 child: const CustomText(
                                     text: "Done",
@@ -144,8 +154,8 @@ class OrderStateScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const CustomText(
-                                  text: "Name: aaaaa",
+                                CustomText(
+                                  text: "Name: $userName",
                                   color: Color(0xffF4F4F4),
                                   size: 20,
                                   weight: FontWeight.w600,
@@ -176,7 +186,12 @@ class OrderStateScreen extends StatelessWidget {
                               width: 287,
                               child: CustomElevatedButton(
                                 backgroundColor: const Color(0xffA8483D),
-                                onPressed: () {},
+                                onPressed: () {
+                                  context
+                                      .read<OrderStateBloc>()
+                                      .add(StopTimerEvent(orderID: orderID));
+                                  Navigator.pop(context);
+                                },
                                 child: const CustomText(
                                     text: "Done",
                                     color: Color(0xffF4F4F4),

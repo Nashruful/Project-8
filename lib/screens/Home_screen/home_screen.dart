@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:onze_cofe_project/components/containers/custom_background_container.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:onze_cofe_project/data_layer/data_layer.dart';
+import 'package:onze_cofe_project/screens/employee_screens/orders_screen.dart';
 import 'package:onze_cofe_project/setup/setup_init.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -21,6 +22,8 @@ class HomeScreen extends StatelessWidget {
           IconButton(
               onPressed: () {
                 //navigate to cart
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => OrdersScreen()));
               },
               icon: Badge.count(
                   backgroundColor: const Color(0xffA8483D),

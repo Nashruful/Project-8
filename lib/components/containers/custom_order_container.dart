@@ -4,9 +4,14 @@ import '../custom_text/custom_text.dart';
 
 class CustomOrderContainer extends StatelessWidget {
   const CustomOrderContainer(
-      {super.key, required this.title, required this.subtitle, this.image});
+      {super.key,
+      required this.title,
+      required this.subtitle,
+      this.image,
+      required this.quantity});
   final String title;
   final String subtitle;
+  final String quantity;
   final Widget? image;
 
   @override
@@ -29,7 +34,9 @@ class CustomOrderContainer extends StatelessWidget {
                 weight: FontWeight.w600,
               ),
               subtitle: CustomText(
-                  text: subtitle, color: const Color(0xfff3d6b7d), size: 16),
+                  text: subtitle, color: Color(0xfff3D6B7D), size: 16),
+              trailing: CustomText(
+                  text: quantity, color: Color(0xfff3D6B7D), size: 14),
             ),
           ),
         ),

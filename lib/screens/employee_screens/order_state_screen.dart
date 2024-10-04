@@ -10,8 +10,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../components/containers/custom_background_container.dart';
 
 class OrderStateScreen extends StatelessWidget {
-  const OrderStateScreen({super.key, required this.orderID});
+  const OrderStateScreen(
+      {super.key, required this.orderID, required this.userName});
   final int orderID;
+  final String userName;
 
   String formatTime(int seconds) {
     int minutes = (seconds / 60).floor();
@@ -24,7 +26,9 @@ class OrderStateScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => OrderStateBloc(),
       child: Builder(builder: (context) {
-        context.read<OrderStateBloc>().add(GetOrdersItemEvent());
+        context
+            .read<OrderStateBloc>()
+            .add(GetOrdersItemEvent(orderID: orderID));
         return CustomBackgroundContainer(
           child: Scaffold(
               backgroundColor: Colors.transparent,
@@ -40,8 +44,8 @@ class OrderStateScreen extends StatelessWidget {
                           Expanded(
                             child: ListView(
                               children: [
-                                 CustomText(
-                                  text: "Name: ${state.userName}",
+                                CustomText(
+                                  text: "Name: $userName",
                                   color: Color(0xffF4F4F4),
                                   size: 20,
                                   weight: FontWeight.w600,
@@ -51,14 +55,15 @@ class OrderStateScreen extends StatelessWidget {
                                 ),
                                 Column(
                                   children: state.orderItem.map((item) {
+                                    print("Item: $item");
                                     return CustomOrderContainer(
                                         image: Image.network(
-                                          item['image_url'],
+                                          item['product']['image_url'],
                                           fit: BoxFit.contain,
                                         ),
-                                        title: item['name'],
+                                        title: item['product']['name'],
                                         subtitle:
-                                            "${item['price'].toString()} SAR");
+                                            "${item['product']['price'].toString()} SAR");
                                   }).toList(),
                                 ),
                               ],
@@ -91,8 +96,8 @@ class OrderStateScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const CustomText(
-                                  text: "Name: aaaaa",
+                                CustomText(
+                                  text: "Name: $userName",
                                   color: Color(0xffF4F4F4),
                                   size: 20,
                                   weight: FontWeight.w600,
@@ -144,8 +149,8 @@ class OrderStateScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const CustomText(
-                                  text: "Name: aaaaa",
+                                CustomText(
+                                  text: "Name: $userName",
                                   color: Color(0xffF4F4F4),
                                   size: 20,
                                   weight: FontWeight.w600,

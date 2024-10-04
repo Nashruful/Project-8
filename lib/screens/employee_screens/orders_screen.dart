@@ -58,53 +58,107 @@ class OrdersScreen extends StatelessWidget {
                 return Center(child: Text('Error: ${state.msg}'));
               } else if (state is OrdersState) {
                 final orders = state.orders;
+                print(orders);
+                final status = state.status;
 
                 if (orders.isEmpty) {
                   return const Center(child: Text('No Orders Found'));
                 }
-                return ListView.separated(
+
+                return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
-                  itemCount: orders.length,
-                  separatorBuilder: (context, index) => const Divider(
-                    color: Color(0xffD7D1CA),
+                  child: TabBarView(
+                    children: [
+                      Column(
+                        children: orders
+                              .where((order) =>
+                                  status[orders.indexOf(order)] != "Done")
+                              .map((order) {
+                            final orderId = order['order_id'];
+                            final userName = order['users']['name'];
+                            final orderStatus = status[orders.indexOf(order)];
+                            IconData icon;
+                            switch (orderStatus) {
+                              case "Received":
+                                icon = Icons.circle;
+                                break;
+                              case "In progress":
+                                icon = Icons.watch_later_outlined;
+                                break;
+                              default:
+                                icon = Icons.check;
+                            }
+                            return Column(
+                              children: [
+                                CustomOrdersListTile(
+                                  text: "Order #$orderId",
+                                  icon: icon,
+                                  color: const Color(0xffD7D1CA),
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => OrderStateScreen(
+                                        orderID: orderId,
+                                        userName: userName,
+                                      ),
+                                    ));
+                                  },
+                                ),
+                                const Divider(
+                                  color: Color(0xffD7D1CA),
+                                ),
+                              ],
+                            );
+                          }).toList(),
+                      ),
+                      Column(
+                        children: orders
+                              .where((order) =>
+                                  status[orders.indexOf(order)] == "Done")
+                              .map((order) {
+                            final orderId = order['order_id'];
+                            final userName = order['users']['name'];
+                            final orderStatus = status[orders.indexOf(order)];
+                            IconData icon;
+                            switch (orderStatus) {
+                              case "Received":
+                                icon = Icons.circle;
+                                break;
+                              case "In progress":
+                                icon = Icons.watch_later_outlined;
+                                break;
+                              default:
+                                icon = Icons.check;
+                            }
+                            return Column(
+                              children: [
+                                CustomOrdersListTile(
+                                  text: "Order #$orderId",
+                                  icon: icon,
+                                  color: const Color(0xffD7D1CA),
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                      builder: (context) => OrderStateScreen(
+                                        orderID: orderId,
+                                        userName: userName,
+                                      ),
+                                    ));
+                                  },
+                                ),
+                                const Divider(
+                                  color: Color(0xffD7D1CA),
+                                ),
+                              ],
+                            );
+                          }).toList(),
+                        
+                      ),
+                    ],
                   ),
-                  itemBuilder: (context, index) {
-                    final order = orders[index];
-                    final orderId = order['order_id'];
-                    final status = state.status;
-                    print(state.status);
-                    if (status[0] == "Done") {
-                      return CustomOrdersListTile(
-                        text: "Order #$orderId",
-                        icon: Icons.check,
-                        color: const Color(0xffD7D1CA),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => OrderStateScreen(
-                              orderID: orderId,
-                            ),
-                          ));
-                        },
-                      );
-                    }
-                    return CustomOrdersListTile(
-                      text: "Order #$orderId",
-                      icon: status[0] == "Received"
-                          ? Icons.circle
-                          : Icons.watch_later_outlined,
-                      color: const Color(0xffD7D1CA),
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => OrderStateScreen(
-                            orderID: orderId,
-                          ),
-                        ));
-                      },
-                    );
-                  },
                 );
               }
-              return SizedBox.shrink();
+              return const SizedBox.shrink();
             }),
           ),
         ),

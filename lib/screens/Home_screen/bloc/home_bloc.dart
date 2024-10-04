@@ -8,9 +8,13 @@ part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final supabase = getIt.get<DataLayer>().supabase;
+  List names = [];
+  List filteredNames = [];
+  String searchQuery = 'matc';
   String? selectedFilter = 'All';
   List<Map<String, dynamic>> items = [];
   HomeBloc() : super(HomeInitial()) {
+    //will load first when landing on home screen
     on<LoadScreenEvent>((event, emit) async {
       emit(LoadingState());
       try {
@@ -27,8 +31,28 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         // emit(ErrorState(msg: e.toString()));
       }
     });
+    //
+
+    on<SearchEvent>((event, emit) async {
+      emit(LoadingState());
+      try {
+        names = await supabase.from('product').select('names');
+        filteredNames = names.where((e) => e.contains(searchQuery)).toList();
+
+        emit(SuccessState());
+      } on FormatException catch (e) {
+        emit(ErrorState());
+        // emit(ErrorState(msg: e.message));
+      } catch (e) {
+        emit(ErrorState());
+        // emit(ErrorState(msg: e.toString()));
+      }
+    });
+
+
+
+///search 
     on<FilterSelectedEvent>((event, emit) async {
-     
       emit(LoadingState());
       try {
         final productIDResponse = await supabase

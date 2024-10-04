@@ -9,3 +9,5 @@ final class FilterSelectedEvent extends HomeEvent {
   final String selectedFilter;
   FilterSelectedEvent({required this.selectedFilter});
 }
+
+final class SearchEvent extends HomeEvent {}

@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onze_cofe_project/components/containers/custom_background_container.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:onze_cofe_project/data_layer/data_layer.dart';
 import 'package:onze_cofe_project/screens/Home_screen/bloc/home_bloc.dart';
 import 'package:onze_cofe_project/screens/cart_screen/cart_screen.dart';
 import 'package:onze_cofe_project/screens/drawer_screen/custom_drawer.dart';
+import 'package:onze_cofe_project/setup/setup_init.dart';
+
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -72,9 +75,9 @@ class HomeScreen extends StatelessWidget {
                 const SnackBar(
                   content: Text(
                     'error',
-                    style: TextStyle(color: Color(0xFF4E2EB5)),
+                    style: TextStyle(color: Color(0xff467283)),
                   ),
-                  backgroundColor: Colors.white,
+                  backgroundColor: Color(0xfff4f4f4),
                   duration: Duration(seconds: 2),
                 ),
               );
@@ -87,17 +90,20 @@ class HomeScreen extends StatelessWidget {
 
               iconTheme: const IconThemeData(color: Color(0xffF4F4F4)),
               actions: [
-                IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => CartScreen()));
-                    },
-                    icon: Badge.count(
+                IconButton(onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => CartScreen()));
+                }, icon: BlocBuilder<HomeBloc, HomeState>(
+                  builder: (context, state) {
+                    return Badge.count(
                         backgroundColor: const Color(0xffA8483D),
-                        count: 1, //changes accorfing to cart items quantity
-                        child: SvgPicture.asset('assets/svg/cart.svg'))),
+                        count: getIt
+                            .get<DataLayer>()
+                            .viewCartItems()
+                            .length, //changes accorfing to cart items quantity
+                        child: SvgPicture.asset('assets/svg/cart.svg'));
+                  },
+                )),
                 const SizedBox(
                   width: 20,
                 ),
@@ -117,7 +123,7 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: TextField(
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: Color(0xfff4f4f4)),
                               cursorColor: Color(0xfff4f4f4),
                               decoration: InputDecoration(
                                 filled: true,
@@ -226,8 +232,8 @@ class HomeScreen extends StatelessWidget {
                                 itemCount: bloc.items.length,
                                 pagination: const SwiperPagination(
                                   builder: FractionPaginationBuilder(
-                                    activeColor: Color(0xffFFFFFF),
-                                    color: Color.fromARGB(205, 255, 255, 255),
+                                    activeColor: Color(0xff3D6B7D),
+                                    color: Color.fromARGB(191, 61, 107, 125),
                                     fontSize: 12,
                                     activeFontSize: 16,
                                   ),
@@ -245,7 +251,22 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                       onPressed: () {
                                         //==========save in storage ===========
-                                        print(currentIndex);
+
+                                        getIt.get<DataLayer>().addToCart(
+                                            item: bloc.items[currentIndex - 1]);
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                              'Successfully Added To Cart',
+                                              style: TextStyle(
+                                                  color: Color(0xff467283)),
+                                            ),
+                                            backgroundColor: Color.fromARGB(
+                                                206, 70, 114, 131),
+                                            duration: Duration(seconds: 2),
+                                          ),
+                                        );
                                       },
                                       child: const Text(
                                         '+ Add To Cart',

@@ -4,8 +4,8 @@ import 'package:meta/meta.dart';
 part 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
-  double unitPrice = 12.0; 
-  int quantity = 1; 
+  double unitPrice = 12.0;   //give item price
+  int quantity = 1;  //give items list lngh 
 
   CartCubit()
       : super(CartSuccess(totalPrice: 12.0, quantity: 1, unitPrice: 12.0));

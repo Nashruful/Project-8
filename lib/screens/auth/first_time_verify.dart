@@ -28,7 +28,7 @@ class FirstTimeVerify extends StatelessWidget {
             }
             if (state is SuccessState) {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()));
+                  MaterialPageRoute(builder: (context) => const HomeScreen()));
             }
             if (state is ErrorState) {
               Navigator.pop(context);

@@ -118,7 +118,7 @@ class LoginScreen extends StatelessWidget {
                                 cubit.signIn();
                               },
                               child: const Center(
-                                child: const CustomText(
+                                child: CustomText(
                                     text: "Sign in",
                                     color: Color(0xffF4F4F4),
                                     size: 12),

@@ -40,11 +40,11 @@ class OrderStateBloc extends Bloc<OrderStateEvent, OrderStateState> {
       try {
         final orderID = await supabase
             .from('orders')
-            .select('order_id')
-            .eq('user_id', 'a57e1a5d-11ea-4237-a85c-f9504db3ad51');
+            .select()
+            .eq('user_id', 'a57e1a5d-11ea-4237-a85c-f9504db3ad51').single();
 
         if (orderID.isNotEmpty) {
-          final orderIDValue = orderID[0]['order_id'];
+          final orderIDValue = orderID['order_id'];
           final productIDResponse = await supabase
               .from("order_items")
               .select('product_id')
@@ -86,7 +86,7 @@ class OrderStateBloc extends Bloc<OrderStateEvent, OrderStateState> {
   }
 
   void startTimer(int seconds) {
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       add(RunTimerEvent());
     });
   }

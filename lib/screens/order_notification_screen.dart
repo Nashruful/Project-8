@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 class OrderNotificationScreen extends StatelessWidget {
+  const OrderNotificationScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFCBD9DF),
+      backgroundColor: const Color(0xFFCBD9DF),
       body: Stack(
         children: [
           Positioned(
@@ -13,7 +15,7 @@ class OrderNotificationScreen extends StatelessWidget {
             child: Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.5,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(40),
@@ -32,15 +34,15 @@ class OrderNotificationScreen extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Center(
                       child: CircleAvatar(
                         radius: 40,
                         backgroundColor: Colors.grey[300],
                       ),
                     ),
-                    SizedBox(height: 90),
-                    Column(
+                    const SizedBox(height: 90),
+                    const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -64,14 +66,14 @@ class OrderNotificationScreen extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF3D6B7D),
+                        backgroundColor: const Color(0xFF3D6B7D),
                         padding:
-                            EdgeInsets.symmetric(vertical: 12, horizontal: 70),
+                            const EdgeInsets.symmetric(vertical: 12, horizontal: 70),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(21.5),
                         ),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Proceed To Payment',
                         style: TextStyle(fontSize: 16, color: Colors.white),
                       ),

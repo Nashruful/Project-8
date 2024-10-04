@@ -46,7 +46,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               ),
                               const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: const Column(
+                                child: Column(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Align(
@@ -86,7 +86,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               ),
                               const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: const Column(
+                                child: Column(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Align(
@@ -126,7 +126,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               ),
                               const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: const Column(
+                                child: Column(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Align(

@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:onze_cofe_project/data_layer/data_layer.dart';
 import 'package:onze_cofe_project/setup/setup_init.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -64,13 +64,22 @@ class AuthCubit extends Cubit<AuthStatee> {
       await supabase.auth
           .verifyOTP(type: OtpType.magiclink, email: email, token: otp);
 
+      await OneSignal.login(supabase.auth.currentUser!.id);
+
+      await supabase
+          .from("users")
+          .update({"external_id": supabase.auth.currentUser!.id}).eq(
+              "user_id", supabase.auth.currentUser!.id);
+
       await getIt.get<DataLayer>().getUserInfo();
 
       emit(SuccessState());
     } on AuthException catch (e) {
       emit(ErrorState(msg: e.message));
+      print(e.message);
     } on PostgrestException catch (e) {
       emit(ErrorState(msg: e.message));
+      print(e.message);
     } catch (e) {
       emit(ErrorState(msg: e.toString()));
     }
@@ -85,9 +94,14 @@ class AuthCubit extends Cubit<AuthStatee> {
       final data = await supabase.auth
           .verifyOTP(type: OtpType.signup, email: email, token: otp);
 
-      await supabase
-          .from("users")
-          .insert({"user_id": data.user?.id, "email": email, "name": name});
+      await supabase.from("users").insert({
+        "user_id": data.user?.id,
+        "email": email,
+        "name": name,
+        "external_id": data.user?.id
+      });
+
+      OneSignal.login(supabase.auth.currentUser!.id);
 
       await getIt.get<DataLayer>().getUserInfo();
 

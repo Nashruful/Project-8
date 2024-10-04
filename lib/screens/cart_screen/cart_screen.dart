@@ -7,6 +7,8 @@ import 'package:onze_cofe_project/screens/order_notification_screen.dart';
 import 'cubit/cart_cubit.dart';
 
 class CartScreen extends StatelessWidget {
+  const CartScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -43,7 +45,7 @@ class CartScreen extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              CartItem(), 
+              const CartItem(), 
               const Spacer(),
               const Center(
                 child: Divider(
@@ -120,7 +122,7 @@ class CartScreen extends StatelessWidget {
 Route createRouteToCart() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) =>
-        OrderNotificationScreen(),
+        const OrderNotificationScreen(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(1.0, 0.0); 
       const end = Offset.zero; 

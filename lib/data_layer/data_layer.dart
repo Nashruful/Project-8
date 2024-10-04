@@ -8,7 +8,9 @@ class DataLayer {
     currentUserInfo = await supabase
         .from("users")
         .select()
-        .eq("user_id", 'a57e1a5d-11ea-4237-a85c-f9504db3ad51')
+        .eq("user_id", supabase.auth.currentUser!.id)
         .single();
+
+      
   }
 }

@@ -6,7 +6,7 @@ import 'package:onze_cofe_project/data_layer/data_layer.dart';
 import 'package:onze_cofe_project/setup/setup_init.dart';
 
 class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -166,8 +166,8 @@ class CoffeeCard extends StatelessWidget {
           child: Positioned(
             child: ElevatedButton(
               style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all(Colors.white),
-                  backgroundColor: MaterialStateProperty.all(
+                  foregroundColor: WidgetStateProperty.all(Colors.white),
+                  backgroundColor: WidgetStateProperty.all(
                       const Color(0xff3D6B7D)) //whats the new way for this?
                   ),
               onPressed: () {

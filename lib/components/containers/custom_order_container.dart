@@ -24,16 +24,16 @@ class CustomOrderContainer extends StatelessWidget {
               leading: image,
               title: CustomText(
                 text: title,
-                color: Color(0xff3D6B7D),
+                color: const Color(0xff3D6B7D),
                 size: 20,
                 weight: FontWeight.w600,
               ),
               subtitle: CustomText(
-                  text: subtitle, color: Color(0xfff3D6B7D), size: 16),
+                  text: subtitle, color: const Color(0xfff3d6b7d), size: 16),
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         )
       ],

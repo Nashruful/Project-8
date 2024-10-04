@@ -78,7 +78,7 @@ class OrderStateScreen extends StatelessWidget {
                                 onPressed: () {
                                   context
                                       .read<OrderStateBloc>()
-                                      .add(StartTimerEvent());
+                                      .add(StartTimerEvent(orderID: orderID));
                                 },
                                 child: const CustomText(
                                     text: "Start",
@@ -131,7 +131,7 @@ class OrderStateScreen extends StatelessWidget {
                                 onPressed: () {
                                   context
                                       .read<OrderStateBloc>()
-                                      .add(StopTimerEvent());
+                                      .add(StopTimerEvent(orderID: orderID));
                                 },
                                 child: const CustomText(
                                     text: "Done",
@@ -181,7 +181,10 @@ class OrderStateScreen extends StatelessWidget {
                               width: 287,
                               child: CustomElevatedButton(
                                 backgroundColor: const Color(0xffA8483D),
-                                onPressed: () {},
+                                onPressed: () {
+                                  context.read<OrderStateBloc>()
+                                      .add(StopTimerEvent(orderID: orderID));
+                                },
                                 child: const CustomText(
                                     text: "Done",
                                     color: Color(0xffF4F4F4),

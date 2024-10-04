@@ -4,9 +4,15 @@ part of 'order_state_bloc.dart';
 sealed class OrderStateEvent {}
 
 
-final class StartTimerEvent extends OrderStateEvent {}
+final class StartTimerEvent extends OrderStateEvent {
+  final int orderID;
+  StartTimerEvent({required this.orderID});
+}
 final class RunTimerEvent extends OrderStateEvent {}
-final class StopTimerEvent extends OrderStateEvent {}
+final class StopTimerEvent extends OrderStateEvent {
+  final int orderID;
+  StopTimerEvent({required this.orderID});
+}
 
 final class GetOrdersItemEvent extends OrderStateEvent {
   final int orderID;

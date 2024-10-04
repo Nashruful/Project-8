@@ -16,7 +16,9 @@ class OrderStateBloc extends Bloc<OrderStateEvent, OrderStateState> {
   OrderStateBloc() : super(OrderStateInitial()) {
     on<OrderStateEvent>((event, emit) {});
 
-    on<StartTimerEvent>((event, emit) {
+    on<StartTimerEvent>((event, emit) async {
+      final orderID = event.orderID;
+      await supabase.from('orders').update({'status': 'In progress'}).eq('order_id', orderID );
       startTimer(60);
       emit(RunningState(seconds: 60));
     });
@@ -32,8 +34,9 @@ class OrderStateBloc extends Bloc<OrderStateEvent, OrderStateState> {
       }
     });
 
-    on<StopTimerEvent>((event, emit) {
-      timer?.cancel();
+    on<StopTimerEvent>((event, emit) async{
+      timer?.cancel();final orderID = event.orderID;
+      await supabase.from('orders').update({'status': 'Done'}).eq('order_id', orderID );
     });
 
     on<GetOrdersItemEvent>((event, emit) async {

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onze_cofe_project/components/containers/custom_background_container.dart';
 import 'package:onze_cofe_project/components/item/cartItem.dart';
+import 'package:onze_cofe_project/data_layer/data_layer.dart';
 import 'package:onze_cofe_project/screens/order_notification_screen.dart';
-
+import 'package:onze_cofe_project/setup/setup_init.dart';
 
 import 'cubit/cart_cubit.dart';
 
@@ -11,6 +13,9 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<Map<String, dynamic>> cartItems =
+        getIt.get<DataLayer>().viewCartItems();
+
     return BlocProvider(
       create: (context) => CartCubit(),
       child: Scaffold(
@@ -26,27 +31,31 @@ class CartScreen extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          elevation: 0,
-          backgroundColor: const Color.fromRGBO(139, 166, 177, 1),
+          backgroundColor: const Color(0xff3D6B7D),
         ),
-        backgroundColor: const Color(0xFFEFEFEF),
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color.fromRGBO(139, 166, 177, 1),
-                Color.fromRGBO(100, 137, 151, 1),
-                Color.fromRGBO(61, 107, 125, 1),
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
+        body: CustomBackgroundContainer(
           child: Column(
             children: [
-              const SizedBox(height: 20),
-              const CartItem(), 
-              const Spacer(),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: cartItems.isEmpty
+                      ? const Center(
+                          child:  Text(
+                          'Your cart is empty.',
+                          style: TextStyle(color: Color(0xfff4f4f4)),
+                        ))
+                      : Column(
+                          children: cartItems
+                              .map((item) => CartItem(
+                                    name: item['name'],
+                                    price:
+                                        double.parse(item['price'].toString()),
+                                    imgUrl: item['image_url'],
+                                  ))
+                              .toList(),
+                        ),
+                ),
+              ),
               const Center(
                 child: Divider(
                   color: Colors.white70,
@@ -95,14 +104,16 @@ class CartScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(30.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context).push(createRouteToCart());
+                    //showBottomSheet(context: context, builder: (context))
+                    //Navigator.of(context).push(createRouteToCart());
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFA8483D),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                   ),
                   child: const Center(
                     child: Text(
@@ -119,13 +130,15 @@ class CartScreen extends StatelessWidget {
     );
   }
 }
+
+//?????
 Route createRouteToCart() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) =>
         const OrderNotificationScreen(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(1.0, 0.0); 
-      const end = Offset.zero; 
+      const begin = Offset(1.0, 0.0);
+      const end = Offset.zero;
       const curve = Curves.ease;
 
       var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));

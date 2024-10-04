@@ -15,6 +15,7 @@ class VerifyScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => AuthCubit(),
       child: Builder(builder: (context) {
+        final cubit = context.read<AuthCubit>();
         return BlocListener<AuthCubit, AuthStatee>(
           listener: (context, state) {
             if (state is LoadingState) {

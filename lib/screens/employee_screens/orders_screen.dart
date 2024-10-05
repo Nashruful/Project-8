@@ -18,6 +18,7 @@ class OrdersScreen extends StatelessWidget {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
+              centerTitle: true,
               backgroundColor: const Color(0xffF4F4F4),
               foregroundColor: const Color(0xff3D6B7D),
               title: const CustomText(
@@ -64,7 +65,6 @@ class OrdersScreen extends StatelessWidget {
                 if (orders.isEmpty) {
                   return const Center(child: Text('No Orders Found'));
                 }
-
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: TabBarView(
@@ -100,7 +100,9 @@ class OrdersScreen extends StatelessWidget {
                                       orderID: orderId,
                                       userName: userName,
                                     ),
-                                  ));
+                                  )).then((_){
+                                    context.read<OrderStateBloc>().add(GetOrdersEvent());
+                                  });;
                                 },
                               ),
                               const Divider(
@@ -141,7 +143,9 @@ class OrdersScreen extends StatelessWidget {
                                       orderID: orderId,
                                       userName: userName,
                                     ),
-                                  ));
+                                  )).then((_){
+                                    context.read<OrderStateBloc>().add(GetOrdersEvent());
+                                  });
                                 },
                               ),
                               const Divider(

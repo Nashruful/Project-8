@@ -15,14 +15,14 @@ class OrderStateBloc extends Bloc<OrderStateEvent, OrderStateState> {
   final supabase = getIt.get<DataLayer>().supabase;
 
   OrderStateBloc() : super(OrderStateInitial()) {
-    void _initRealTimeListeners() {
+    void initRealTimeListeners() {
       supabase.from('orders').stream(primaryKey: ['order_id']).listen(
           (List<Map<String, dynamic>> data) {
         add(GetOrdersEvent());
       });
     }
 
-    _initRealTimeListeners();
+    initRealTimeListeners();
     on<StartTimerEvent>((event, emit) async {
       final orderID = event.orderID;
       await supabase

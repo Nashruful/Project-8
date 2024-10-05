@@ -49,6 +49,9 @@
 - **State Management**: BLoC is used to manage states like filtering and searching.
 - **UI Elements**: A search bar, filter options (e.g., hot coffee, cold coffee), a swiper carousel for product display, and an "Add to Cart" button. Custom animations enhance user interaction.
 
+![Uploading b154c08fde6d8c009e4a14f0153cb6b7 (1).gif…]()
+
+
 ### OrdersScreen
 - **Purpose**: Displays and categorizes user orders into "Current" and "Completed" tabs.
 - **State Management**: `OrderStateBloc` handles fetching and displaying the user's order history.

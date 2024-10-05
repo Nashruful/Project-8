@@ -1,16 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:onze_cofe_project/components/containers/custom_background_container.dart';
 import 'package:onze_cofe_project/components/items/cart_Item.dart';
+import 'package:onze_cofe_project/data_layer/data_layer.dart';
+import 'package:onze_cofe_project/screens/cart_screen/model/cartItemDate.dart';
 import 'package:onze_cofe_project/screens/notification_screen/order_notification_screen.dart';
-
-
 import 'cubit/cart_cubit.dart';
+import 'package:get_it/get_it.dart';
 
 class CartScreen extends StatelessWidget {
+  const CartScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
+    List<Map<String, dynamic>> cartItems =
+        GetIt.I.get<DataLayer>().viewCartItems();
+    List<CartItemData> cartItemDataList = cartItems.map((item) {
+      return CartItemData(
+        id: item['id'],
+        name: item['name'],
+        unitPrice: item['unitPrice'],
+        quantity: item['quantity'],
+      );
+    }).toList();
     return BlocProvider(
-      create: (context) => CartCubit(),
+      create: (context) => CartCubit(cartItemDataList),
       child: Scaffold(
         appBar: AppBar(
           iconTheme: const IconThemeData(color: Colors.white),
@@ -24,27 +38,47 @@ class CartScreen extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
           ),
-          elevation: 0,
-          backgroundColor: const Color.fromRGBO(139, 166, 177, 1),
+          backgroundColor: const Color(0xff3D6B7D),
         ),
-        backgroundColor: const Color(0xFFEFEFEF),
-        body: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color.fromRGBO(139, 166, 177, 1),
-                Color.fromRGBO(100, 137, 151, 1),
-                Color.fromRGBO(61, 107, 125, 1),
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
+        body: CustomBackgroundContainer(
           child: Column(
             children: [
-              const SizedBox(height: 20),
-              CartItem(), 
-              const Spacer(),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: cartItems.isEmpty
+                      ? const Center(
+                          child: Text(
+                            'Your cart is empty.',
+                            style: TextStyle(color: Color(0xfff4f4f4)),
+                          ),
+                        )
+                      : Column(
+                          children: cartItems.asMap().entries.map((entry) {
+                            final index =
+                                entry.key; 
+                            return CartItem(
+                              key: ValueKey(entry.value),
+                              name: entry.value['name'],
+                              price: entry.value['unitPrice'],
+                              imgUrl: entry.value['imgUrl'],
+                              index: index,
+                              onIncrement: () {
+                                GetIt.I
+                                    .get<DataLayer>()
+                                    .incrementItemQuantity(item: entry.value);
+                              },
+                              onDecrement: () {
+                                GetIt.I
+                                    .get<DataLayer>()
+                                    .decrementItemQuantity(item: entry.value);
+                                context.read<CartCubit>().decreaseQuantity(
+                                    index); 
+                              },
+                            );
+                          }).toList(),
+                        ),
+                ),
+              ),
               const Center(
                 child: Divider(
                   color: Colors.white70,
@@ -58,6 +92,8 @@ class CartScreen extends StatelessWidget {
                   if (state is CartLoading) {
                     return const Center(child: CircularProgressIndicator());
                   } else if (state is CartSuccess) {
+                    final totalPrice = state.cartItems.fold(0.0,
+                        (sum, item) => sum + item.unitPrice * item.quantity);
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Row(
@@ -68,7 +104,7 @@ class CartScreen extends StatelessWidget {
                             style: TextStyle(color: Colors.white, fontSize: 18),
                           ),
                           Text(
-                            "${state.totalPrice.toStringAsFixed(2)} SAR",
+                            "${totalPrice.toStringAsFixed(2)} SAR",
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -96,18 +132,13 @@ class CartScreen extends StatelessWidget {
                     Navigator.of(context).push(createRouteToCart());
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFA8483D),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 30,
+                      vertical: 15,
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                    backgroundColor: const Color(0xFF336B87),
                   ),
-                  child: const Center(
-                    child: Text(
-                      "Place Order",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                  ),
+                  child: const Text("Place Order"),
                 ),
               ),
             ],
@@ -117,13 +148,14 @@ class CartScreen extends StatelessWidget {
     );
   }
 }
+
 Route createRouteToCart() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) =>
         OrderNotificationScreen(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(1.0, 0.0); 
-      const end = Offset.zero; 
+      const begin = Offset(1.0, 0.0);
+      const end = Offset.zero;
       const curve = Curves.ease;
 
       var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));

@@ -46,7 +46,7 @@ class OrderStateScreen extends StatelessWidget {
                               children: [
                                 CustomText(
                                   text: "Name: $userName",
-                                  color: Color(0xffF4F4F4),
+                                  color: const Color(0xffF4F4F4),
                                   size: 20,
                                   weight: FontWeight.w600,
                                 ),
@@ -103,7 +103,7 @@ class OrderStateScreen extends StatelessWidget {
                               children: [
                                 CustomText(
                                   text: "Name: $userName",
-                                  color: Color(0xffF4F4F4),
+                                  color: const Color(0xffF4F4F4),
                                   size: 20,
                                   weight: FontWeight.w600,
                                 ),
@@ -158,7 +158,7 @@ class OrderStateScreen extends StatelessWidget {
                               children: [
                                 CustomText(
                                   text: "Name: $userName",
-                                  color: Color(0xffF4F4F4),
+                                  color: const Color(0xffF4F4F4),
                                   size: 20,
                                   weight: FontWeight.w600,
                                 ),

@@ -38,7 +38,7 @@ class CartItem extends StatelessWidget {
                 children: [
                   Text(
                     name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color.fromRGBO(61, 107, 125, 1),
                       fontSize: 20,
                       fontWeight: FontWeight.w600,

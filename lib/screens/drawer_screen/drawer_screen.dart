@@ -1,8 +1,5 @@
-import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:onze_cofe_project/screens/drawer_screen/custom_drawer.dart';
 
 class DrawerPage extends StatelessWidget {

@@ -102,7 +102,7 @@ class OrdersScreen extends StatelessWidget {
                                     ),
                                   )).then((_){
                                     context.read<OrderStateBloc>().add(GetOrdersEvent());
-                                  });;
+                                  });
                                 },
                               ),
                               const Divider(

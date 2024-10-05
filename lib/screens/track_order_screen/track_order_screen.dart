@@ -23,7 +23,7 @@ class TrackOrderScreen extends StatelessWidget {
               child: BlocBuilder<TrackOrderBloc, TrackOrderState>(
                 builder: (context, state) {
                   if (state is LoadingState) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 } else if (state is SuccessState) {
                   final index = state.index;
                   return Column(

@@ -169,7 +169,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              CreateAccountScreen()));
+                                              const CreateAccountScreen()));
                                 }
                                 context.read<WelcomeCubit>().nextPage();
                                 _pageController.animateToPage(

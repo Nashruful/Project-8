@@ -8,6 +8,8 @@ import 'dart:async';
 import 'package:onze_cofe_project/setup/setup_init.dart';
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -21,16 +23,16 @@ class _SplashScreenState extends State<SplashScreen> {
       if (getIt.get<DataLayer>().firstTimeJoin == "true" &&
           getIt.get<DataLayer>().currentUserInfo!.isNotEmpty) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => HomeScreen()),
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
         );
       }
       if (getIt.get<DataLayer>().firstTimeJoin == "true") {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => LoginScreen()));
+            context, MaterialPageRoute(builder: (context) => const LoginScreen()));
       }
       if (getIt.get<DataLayer>().firstTimeJoin == null) {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => WelcomeScreen()));
+            context, MaterialPageRoute(builder: (context) => const WelcomeScreen()));
       }
     });
   }
@@ -40,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return const Scaffold(
       backgroundColor: Colors.blue, // Your desired background color
       body: Center(
-        child: const Column(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             // Replace with your app logo

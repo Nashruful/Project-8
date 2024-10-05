@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onze_cofe_project/components/containers/custom_background_container.dart';
 import 'package:onze_cofe_project/components/custom_text/custom_text.dart';
+import 'package:onze_cofe_project/data_layer/data_layer.dart';
 import 'package:onze_cofe_project/screens/Home_screen/home_screen.dart';
 import 'package:onze_cofe_project/screens/auth/cubit/auth_cubit.dart';
+import 'package:onze_cofe_project/screens/employee_screens/orders_screen.dart';
+import 'package:onze_cofe_project/setup/setup_init.dart';
 import 'package:pinput/pinput.dart';
 
 class VerifyScreen extends StatelessWidget {
@@ -26,8 +29,15 @@ class VerifyScreen extends StatelessWidget {
                       ));
             }
             if (state is SuccessState) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()));
+              if (getIt.get<DataLayer>().currentUserInfo!['role'] == 'user') {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+            );
+          } else {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => OrdersScreen()),
+            );
+          }
             }
             if (state is ErrorState) {
               Navigator.pop(context);

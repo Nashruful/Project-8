@@ -12,7 +12,7 @@ class DataLayer {
   List<Map<String, dynamic>> itemsList = [];
 
   DataLayer() {
-    // box.erase();
+    //box.erase();
     loadData();
   }
 

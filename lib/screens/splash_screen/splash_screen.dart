@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:onze_cofe_project/data_layer/data_layer.dart';
 import 'package:onze_cofe_project/screens/Home_screen/home_screen.dart';
 import 'package:onze_cofe_project/screens/auth/login_screen.dart';
+import 'package:onze_cofe_project/screens/employee_screens/orders_screen.dart';
 import 'package:onze_cofe_project/screens/welcome_screen/welcome_screen.dart';
 import 'dart:async';
 
@@ -17,16 +18,20 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3), () {
-
       if (getIt.get<DataLayer>().firstTimeJoin == "true") {
         if (getIt.get<DataLayer>().currentUserInfo!.isNotEmpty) {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => HomeScreen()),
-          );
-        }
-        else{
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => LoginScreen()));
+          if (getIt.get<DataLayer>().currentUserInfo!['role'] == 'user') {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+            );
+          } else {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => OrdersScreen()),
+            );
+          }
+        } else {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => LoginScreen()));
         }
       }
       if (getIt.get<DataLayer>().firstTimeJoin == null) {

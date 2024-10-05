@@ -36,15 +36,11 @@
 - **State Management**: `AuthCubit` processes OTP verification, displaying loading, success, or error states.
 - **UI Elements**: Displays the user's email, a Pinput widget for entering the OTP, and a placeholder for a "Verify OTP" button (which can be uncommented for manual submission).
 
-![534766945debe5a0abd0137dfcb6796a](https://github.com/user-attachments/assets/de0e6976-8876-4e83-8abd-7bb661dff082)
-
 
 ### TrackOrderScreen
 - **Purpose**: Lets users track their coffee order with real-time updates.
 - **State Management**: `TrackOrderBloc` fetches and displays the order status using states (loading, success, error).
 - **UI Elements**: Displays the order number, a Lottie animation for order progress, and a `Stepper` (currently commented out) to visually represent the different stages of the order.
-
-![Track order](https://github.com/user-attachments/assets/c308e280-ec8d-4597-8229-6ab757b50ef0)
 
 
 ### HomeScreen
@@ -53,16 +49,12 @@
 - **UI Elements**: A search bar, filter options (e.g., hot coffee, cold coffee), a swiper carousel for product display, and an "Add to Cart" button. Custom animations enhance user interaction.
 
 
-![home](https://github.com/user-attachments/assets/a8141530-8c16-4a98-8e93-ba8588332b89)
-
 
 ### OrdersScreen
 - **Purpose**: Displays and categorizes user orders into "Current" and "Completed" tabs.
 - **State Management**: `OrderStateBloc` handles fetching and displaying the user's order history.
 - **UI Elements**: A tab bar for navigating between current and completed orders, custom list tiles for displaying order details, and Lottie animations for loading indicators.
-
-  ![b774e867c938046adf70c0c6b173a556](https://github.com/user-attachments/assets/95a46ef7-6d35-44e5-aa79-d442d5241e7a)
-
+  
 
 ### FirstTimeVerify Screen
 - **Purpose**: Handles the verification process during the user's first login by entering an OTP.
@@ -73,28 +65,13 @@
 
 ### Screens
 
+![534766945debe5a0abd0137dfcb6796a](https://github.com/user-attachments/assets/de0e6976-8876-4e83-8abd-7bb661dff082)
 
+![6039a92e55b6966dcdcb8e4775065411 (1)](https://github.com/user-attachments/assets/bcf13ee7-7fcd-40d8-9c4e-954b8ee5062a)
 
+![home](https://github.com/user-attachments/assets/a8141530-8c16-4a98-8e93-ba8588332b89)
 
-//هنا اضيف
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+![b774e867c938046adf70c0c6b173a556](https://github.com/user-attachments/assets/95a46ef7-6d35-44e5-aa79-d442d5241e7a)
 
 ### User Flow
 The user flow diagram illustrates the process of managing orders for both employees and customers in an ordering system. Here's a detailed breakdown:

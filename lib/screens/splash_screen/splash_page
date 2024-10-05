@@ -60,7 +60,7 @@ class SplashScreen extends StatelessWidget {
                                 fit: BoxFit.contain,
                               ),
                               Image.asset(
-                                'assets/images/line.png',
+                                'assets/images/cafe.png',
                                 width: 82.53,
                                 height: 17.73,
                                 fit: BoxFit.contain,

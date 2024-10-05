@@ -1,14 +1,15 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:onze_cofe_project/components/containers/custom_background_container.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:onze_cofe_project/data_layer/data_layer.dart';
-import 'package:onze_cofe_project/screens/drawer_screen/custom_drawer.dart';
 import 'package:onze_cofe_project/screens/Home_screen/bloc/home_bloc.dart';
 import 'package:onze_cofe_project/screens/cart_screen/cart_screen.dart';
 import 'package:onze_cofe_project/setup/setup_init.dart';
+
+import '../drawer_screen/custom_drawer.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -28,13 +29,12 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {
               {
                 if (bloc.selectedFilter == filter) {
-                  print(filter);
                   // do nothing
                   return;
                 } else {
                   // Select the new filter
                   bloc.selectedFilter = filter;
-                  print(filter);
+
                   if (filter == 'All') {
                     bloc.add(LoadScreenEvent());
                     Navigator.pop(context);
@@ -64,10 +64,9 @@ class HomeScreen extends StatelessWidget {
               showDialog(
                 context: context,
                 barrierDismissible: false,
-                builder: (context) => AlertDialog(
+                builder: (context) => const AlertDialog(
                     backgroundColor: Colors.transparent,
-                    content: Lottie.asset(
-                        "assets/json/Animation - 1728142372274.json")),
+                    content: CircularProgressIndicator()),
               );
             } else if (state is SuccessState) {
               Navigator.pop(context);
@@ -98,7 +97,7 @@ class HomeScreen extends StatelessWidget {
                           builder: (context) => const CartScreen()));
                 }, icon: BlocBuilder<HomeBloc, HomeState>(
                   builder: (context, state) {
-                    if (getIt.get<DataLayer>().viewCartItems().isEmpty) {
+                    if (getIt.get<DataLayer>().viewCartItems().length == 0) {
                       return SvgPicture.asset('assets/svg/cart.svg');
                     }
                     return Badge.count(
@@ -232,9 +231,7 @@ class HomeScreen extends StatelessWidget {
                                 itemWidth: double.infinity,
                                 itemHeight: 500,
                                 itemBuilder: (context, index) {
-                                  index > 0
-                                      ? currentIndex = index - 1
-                                      : currentIndex = bloc.items.length - 1;
+                                  currentIndex = index;
                                   final item = bloc.filteredQuery[index];
                                   return CoffeeCard(
                                     name: item['name'],
@@ -264,12 +261,11 @@ class HomeScreen extends StatelessWidget {
                                         backgroundColor:
                                             const Color(0xffA8483D),
                                       ),
-                                      onPressed: () {
+                                      onPressed: () async {
                                         //==========save in storage ===========
-                                        print(currentIndex);
+                                        // print(currentIndex);
                                         getIt.get<DataLayer>().addToCart(
-                                            item: bloc
-                                                .filteredQuery[currentIndex]);
+                                            item: bloc.items[currentIndex - 1]);
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           const SnackBar(
@@ -279,11 +275,13 @@ class HomeScreen extends StatelessWidget {
                                                   color: Color(0xff467283)),
                                             ),
                                             backgroundColor: Color(0xfff4f4f4),
-                                            duration:
-                                                Duration(milliseconds: 500),
+                                            duration: Duration(seconds: 2),
                                           ),
                                         );
                                         bloc.add(SearchEvent());
+
+                                        print(await OneSignal.User
+                                            .getExternalId());
                                       },
                                       child: const Text(
                                         '+ Add To Cart',

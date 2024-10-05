@@ -55,7 +55,9 @@ class OrderStateScreen extends StatelessWidget {
                                 ),
                                 Column(
                                   children: state.orderItem.map((item) {
-                                    final totalPrice = item['product']['price'] * item['quantity'];
+                                    final totalPrice = item['product']
+                                            ['price'] *
+                                        item['quantity'];
                                     print("Item: $item");
                                     return CustomOrderContainer(
                                       image: Image.network(
@@ -63,8 +65,7 @@ class OrderStateScreen extends StatelessWidget {
                                         fit: BoxFit.contain,
                                       ),
                                       title: item['product']['name'],
-                                      subtitle:
-                                          "${totalPrice.toString()} SAR",
+                                      subtitle: "${totalPrice.toString()} SAR",
                                       quantity:
                                           "X ${item['quantity'].toString()}",
                                     );
@@ -136,6 +137,7 @@ class OrderStateScreen extends StatelessWidget {
                                   context
                                       .read<OrderStateBloc>()
                                       .add(StopTimerEvent(orderID: orderID));
+
                                   Navigator.pop(context);
                                 },
                                 child: const CustomText(
@@ -190,6 +192,7 @@ class OrderStateScreen extends StatelessWidget {
                                   context
                                       .read<OrderStateBloc>()
                                       .add(StopTimerEvent(orderID: orderID));
+
                                   Navigator.pop(context);
                                 },
                                 child: const CustomText(

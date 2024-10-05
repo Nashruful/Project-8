@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../data_layer/data_layer.dart';
 import '../../../setup/setup_init.dart';
@@ -21,8 +22,20 @@ class OrderStateBloc extends Bloc<OrderStateEvent, OrderStateState> {
       await supabase
           .from('orders')
           .update({'status': 'In progress'}).eq('order_id', orderID);
-      startTimer(60);
-      emit(RunningState(seconds: 60));
+
+      final orderWaitingTime = await supabase
+          .from('orders')
+          .select()
+          .eq('order_id', orderID)
+          .single();
+
+      final seconds = orderWaitingTime['order_time'];
+      final minutes = (orderWaitingTime['order_time'] * 60);
+      print(seconds);
+      print(minutes);
+
+      startTimer(minutes);
+      emit(RunningState(seconds: minutes));
     });
 
     on<RunTimerEvent>((event, emit) {
@@ -50,7 +63,9 @@ class OrderStateBloc extends Bloc<OrderStateEvent, OrderStateState> {
         emit(OrdersItemState(
           orderItem: List<Map<String, dynamic>>.from(orderItems),
         ));
-      } on FormatException catch (e) {
+      } on AuthException catch (e) {
+        emit(ErrorState(msg: e.message));
+      } on PostgrestException catch (e) {
         emit(ErrorState(msg: e.message));
       } catch (e) {
         emit(ErrorState(msg: e.toString()));
@@ -66,6 +81,10 @@ class OrderStateBloc extends Bloc<OrderStateEvent, OrderStateState> {
 
         final orderStatus = orders.map((state) => state['status']).toList();
         emit(OrdersState(orders: orders, status: orderStatus));
+      } on AuthException catch (e) {
+        emit(ErrorState(msg: e.message));
+      } on PostgrestException catch (e) {
+        emit(ErrorState(msg: e.message));
       } catch (e) {
         emit(ErrorState(msg: e.toString()));
       }

@@ -44,18 +44,25 @@
 - **State Management**: `TrackOrderBloc` fetches and displays the order status using states (loading, success, error).
 - **UI Elements**: Displays the order number, a Lottie animation for order progress, and a `Stepper` (currently commented out) to visually represent the different stages of the order.
 
+![Track order](https://github.com/user-attachments/assets/c308e280-ec8d-4597-8229-6ab757b50ef0)
+
+
 ### HomeScreen
 - **Purpose**: Displays coffee products and provides filtering, searching, and cart management features.
 - **State Management**: BLoC is used to manage states like filtering and searching.
 - **UI Elements**: A search bar, filter options (e.g., hot coffee, cold coffee), a swiper carousel for product display, and an "Add to Cart" button. Custom animations enhance user interaction.
 
-![Uploading b154c08fde6d8c009e4a14f0153cb6b7 (1).gif…]()
+
+![home](https://github.com/user-attachments/assets/a8141530-8c16-4a98-8e93-ba8588332b89)
 
 
 ### OrdersScreen
 - **Purpose**: Displays and categorizes user orders into "Current" and "Completed" tabs.
 - **State Management**: `OrderStateBloc` handles fetching and displaying the user's order history.
 - **UI Elements**: A tab bar for navigating between current and completed orders, custom list tiles for displaying order details, and Lottie animations for loading indicators.
+
+  ![b774e867c938046adf70c0c6b173a556](https://github.com/user-attachments/assets/95a46ef7-6d35-44e5-aa79-d442d5241e7a)
+
 
 ### FirstTimeVerify Screen
 - **Purpose**: Handles the verification process during the user's first login by entering an OTP.

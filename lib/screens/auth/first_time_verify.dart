@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:onze_cofe_project/components/containers/custom_background_container.dart';
 import 'package:onze_cofe_project/components/custom_text/custom_text.dart';
 import 'package:onze_cofe_project/screens/Home_screen/home_screen.dart';
@@ -22,8 +23,11 @@ class FirstTimeVerify extends StatelessWidget {
             if (state is LoadingState) {
               showDialog(
                   context: context,
-                  builder: (context) => const AlertDialog(
-                        content: CircularProgressIndicator(),
+                  barrierDismissible: false,
+                  builder: (context) => AlertDialog(
+                        backgroundColor: Colors.transparent,
+                        content: Lottie.asset(
+                            "assets/json/Animation - 1728142372274.json"),
                       ));
             }
             if (state is SuccessState) {
@@ -33,8 +37,16 @@ class FirstTimeVerify extends StatelessWidget {
             if (state is ErrorState) {
               Navigator.pop(context);
 
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(state.msg)));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    state.msg,
+                    style: const TextStyle(color: Color(0xff467283)),
+                  ),
+                  backgroundColor: const Color(0xfff4f4f4),
+                  duration: const Duration(seconds: 2),
+                ),
+              );
             }
           },
           child: Scaffold(

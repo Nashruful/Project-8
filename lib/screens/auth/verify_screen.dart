@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:onze_cofe_project/components/containers/custom_background_container.dart';
 import 'package:onze_cofe_project/components/custom_text/custom_text.dart';
 import 'package:onze_cofe_project/screens/Home_screen/home_screen.dart';
@@ -15,14 +16,16 @@ class VerifyScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => AuthCubit(),
       child: Builder(builder: (context) {
-        final cubit = context.read<AuthCubit>();
         return BlocListener<AuthCubit, AuthStatee>(
           listener: (context, state) {
             if (state is LoadingState) {
               showDialog(
                   context: context,
-                  builder: (context) => const AlertDialog(
-                        content: CircularProgressIndicator(),
+                  barrierDismissible: false,
+                  builder: (context) => AlertDialog(
+                        backgroundColor: Colors.transparent,
+                        content: Lottie.asset(
+                            "assets/json/Animation - 1728142372274.json"),
                       ));
             }
             if (state is SuccessState) {
@@ -31,9 +34,16 @@ class VerifyScreen extends StatelessWidget {
             }
             if (state is ErrorState) {
               Navigator.pop(context);
-
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(state.msg)));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    state.msg,
+                    style: const TextStyle(color: Color(0xff467283)),
+                  ),
+                  backgroundColor: const Color(0xfff4f4f4),
+                  duration: const Duration(seconds: 2),
+                ),
+              );
             }
           },
           child: Scaffold(
@@ -45,22 +55,36 @@ class VerifyScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const CustomText(
+                          text: "Verify OTP",
+                          color: Color(0xffD7D2CB),
+                          size: 24,
+                          weight: FontWeight.w700,
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         Align(
-                            alignment: Alignment.centerLeft,
-                            child: CustomText(
-                                text: "Verify $email",
-                                color: const Color(0xffD7D2CB),
-                                size: 24)),
+                          alignment: Alignment.centerLeft,
+                          child: RichText(
+                              text: TextSpan(children: [
+                            const TextSpan(
+                                text: "An OTP was send to ",
+                                style: TextStyle(
+                                  color: Color(0xffD7D2CB),
+                                  fontSize: 20,
+                                )),
+                            TextSpan(
+                                text: email,
+                                style: const TextStyle(
+                                    color: Color(0xffA8483D), fontSize: 20)),
+                          ])),
+                        ),
                         const SizedBox(
                           height: 40,
-                        ),
-                        const Align(
-                          alignment: Alignment.centerLeft,
-                          child: CustomText(
-                              text: "Email",
-                              color: Color(0x72FFFFFF),
-                              size: 12),
                         ),
                         const SizedBox(
                           height: 9,

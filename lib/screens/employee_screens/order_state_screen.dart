@@ -10,10 +10,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../components/containers/custom_background_container.dart';
 
 class OrderStateScreen extends StatelessWidget {
-  const OrderStateScreen(
-      {super.key, required this.orderID, required this.userName});
+  const OrderStateScreen({
+    super.key,
+    required this.orderID,
+    required this.userName,
+    required this.userID,
+  });
   final int orderID;
   final String userName;
+  final String userID;
 
   String formatTime(int seconds) {
     int minutes = (seconds / 60).floor();
@@ -114,7 +119,7 @@ class OrderStateScreen extends StatelessWidget {
                                   child: Column(
                                     children: [
                                       Lottie.asset(
-                                          "assets/json/Animation - 1727514346086.json",
+                                          "assets/json/Animation - 1728142372274.json",
                                           width: 300,
                                           height: 300),
                                       CustomText(
@@ -169,7 +174,7 @@ class OrderStateScreen extends StatelessWidget {
                                   child: Column(
                                     children: [
                                       Lottie.asset(
-                                          "assets/json/Animation - 1727514346086.json",
+                                          "assets/json/Animation - 1728142372274.json",
                                           width: 300,
                                           height: 300),
                                       const CustomText(
@@ -207,7 +212,7 @@ class OrderStateScreen extends StatelessWidget {
                     } else {
                       return Center(
                         child: Lottie.asset(
-                            "assets/json/Animation - 1727813605870.json"),
+                            "assets/json/Animation - 1728142372274.json"),
                       );
                     }
                   },

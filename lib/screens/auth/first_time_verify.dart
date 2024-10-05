@@ -6,16 +6,17 @@ import 'package:onze_cofe_project/screens/Home_screen/home_screen.dart';
 import 'package:onze_cofe_project/screens/auth/cubit/auth_cubit.dart';
 import 'package:pinput/pinput.dart';
 
-class VerifyScreen extends StatelessWidget {
-  const VerifyScreen({super.key, required this.email});
+class FirstTimeVerify extends StatelessWidget {
+  const FirstTimeVerify(
+      {super.key, required this.email, required this.firstName});
   final String email;
+  final String firstName;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AuthCubit(),
       child: Builder(builder: (context) {
-        final cubit = context.read<AuthCubit>();
         return BlocListener<AuthCubit, AuthStatee>(
           listener: (context, state) {
             if (state is LoadingState) {
@@ -68,7 +69,8 @@ class VerifyScreen extends StatelessWidget {
                         Pinput(
                           onCompleted: (value) => context
                               .read<AuthCubit>()
-                              .verifyOTP(email: email, otp: value),
+                              .firstTimeVerifyOTP(
+                                  email: email, name: firstName, otp: value),
                           length: 6,
                         ),
                         const SizedBox(

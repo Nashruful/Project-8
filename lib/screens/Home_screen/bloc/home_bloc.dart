@@ -2,15 +2,15 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:onze_cofe_project/data_layer/data_layer.dart';
 import 'package:onze_cofe_project/setup/setup_init.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final supabase = getIt.get<DataLayer>().supabase;
-  List names = [];
-  List filteredNames = [];
-  String searchQuery = 'matc';
+  List<Map<String, dynamic>> filteredQuery = [];
+  String searchQuery = '';
   String? selectedFilter = 'All';
   List<Map<String, dynamic>> items = [];
   HomeBloc() : super(HomeInitial()) {
@@ -21,37 +21,36 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         final productIDResponse = await supabase.from("product").select();
 
         items = List<Map<String, dynamic>>.from(productIDResponse);
+        filteredQuery = items
+            .where((e) => e['name']
+                .toString()
+                .toLowerCase()
+                .contains(searchQuery.toLowerCase()))
+            .toList();
 
         emit(SuccessState());
-      } on FormatException catch (e) {
-        emit(ErrorState());
-        // emit(ErrorState(msg: e.message));
+      } on AuthException catch (e) {
+        emit(ErrorState(msg: e.message));
+      } on PostgrestException catch (e) {
+        emit(ErrorState(msg: e.message));
       } catch (e) {
-        emit(ErrorState());
-        // emit(ErrorState(msg: e.toString()));
+        emit(ErrorState(msg: e.toString()));
       }
     });
     //
 
-    on<SearchEvent>((event, emit) async {
-      emit(LoadingState());
-      try {
-        names = await supabase.from('product').select('names');
-        filteredNames = names.where((e) => e.contains(searchQuery)).toList();
+    on<SearchEvent>((event, emit) {
+      filteredQuery = items
+          .where((e) => e['name']
+              .toString().trim()
+              .toLowerCase()
+              .contains(searchQuery.trim().toLowerCase()))
+          .toList();
 
-        emit(SuccessState());
-      } on FormatException catch (e) {
-        emit(ErrorState());
-        // emit(ErrorState(msg: e.message));
-      } catch (e) {
-        emit(ErrorState());
-        // emit(ErrorState(msg: e.toString()));
-      }
+      emit(SearchItemState());
     });
 
-
-
-///search 
+    ///search
     on<FilterSelectedEvent>((event, emit) async {
       emit(LoadingState());
       try {
@@ -63,12 +62,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         items = List<Map<String, dynamic>>.from(productIDResponse);
 
         emit(SuccessState());
-      } on FormatException catch (e) {
-        emit(ErrorState());
-        // emit(ErrorState(msg: e.message));
+      } on AuthException catch (e) {
+        emit(ErrorState(msg: e.message));
+      } on PostgrestException catch (e) {
+        emit(ErrorState(msg: e.message));
       } catch (e) {
-        emit(ErrorState());
-        // emit(ErrorState(msg: e.toString()));
+        emit(ErrorState(msg: e.toString()));
       }
     });
   }

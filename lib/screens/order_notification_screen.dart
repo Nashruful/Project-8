@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:onze_cofe_project/components/custom_elevated_button/custom_elevated_button.dart';
 
 class OrderNotificationScreen extends StatelessWidget {
+  const OrderNotificationScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(

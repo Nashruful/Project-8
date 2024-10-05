@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -30,7 +29,7 @@ class CustomTextFormField extends StatelessWidget {
           controller: controller,
           decoration: InputDecoration(
               border: InputBorder.none,
-              contentPadding: EdgeInsets.only(left: 15),
+              contentPadding: const EdgeInsets.only(left: 15, bottom: 10),
               hintStyle:
                   const TextStyle(fontSize: 12, color: Color(0x72FFFFFF)),
               hintText: hintText),

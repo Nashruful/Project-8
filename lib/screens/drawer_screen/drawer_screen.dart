@@ -6,13 +6,15 @@ import 'package:flutter/widgets.dart';
 import 'package:onze_cofe_project/screens/drawer_screen/custom_drawer.dart';
 
 class DrawerPage extends StatelessWidget {
+  const DrawerPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color.fromRGBO(139, 166, 177, 1),
-        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: const Color.fromRGBO(139, 166, 177, 1),
+        iconTheme: const IconThemeData(color: Colors.white),
         actions: [
           Stack(
             children: [
@@ -39,9 +41,9 @@ class DrawerPage extends StatelessWidget {
           ),
         ],
       ),
-      drawer: CustomDrawer(),
+      drawer: const CustomDrawer(),
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
               Color.fromRGBO(139, 166, 177, 1),

@@ -13,11 +13,13 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Map<String, dynamic>> cartItems =
+    // Initial load of cart items from DataLayer
+    List<Map<String, dynamic>> initialCartItems =
         getIt.get<DataLayer>().viewCartItems();
 
     return BlocProvider(
-      create: (context) => CartCubit(),
+      create: (context) =>
+          CartCubit(initialCartItems), // Pass initial cart items to the cubit
       child: Scaffold(
         appBar: AppBar(
           iconTheme: const IconThemeData(color: Colors.white),
@@ -37,23 +39,42 @@ class CartScreen extends StatelessWidget {
           child: Column(
             children: [
               Expanded(
-                child: SingleChildScrollView(
-                  child: cartItems.isEmpty
-                      ? Center(
+                child: BlocBuilder<CartCubit, CartState>(
+                  builder: (context, state) {
+                    if (state is CartLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state is CartSuccess) {
+                      if (state.cartItems.isEmpty) {
+                        return const Center(
                           child: Text(
-                          'Your cart is empty.',
-                          style: TextStyle(color: Color(0xfff4f4f4)),
-                        ))
-                      : Column(
-                          children: cartItems
-                              .map((item) => CartItem(
-                                    name: item['name'],
-                                    price:
-                                        double.parse(item['price'].toString()),
-                                    imgUrl: item['image_url'],
-                                  ))
-                              .toList(),
+                            'Your cart is empty.',
+                            style: TextStyle(color: Color(0xfff4f4f4)),
+                          ),
+                        );
+                      }
+                      return ListView.builder(
+                        itemCount: state.cartItems.length,
+                        itemBuilder: (context, index) {
+                          final item = state.cartItems[index];
+                          return CartItem(
+                            name: item['name'],
+                            price: double.parse(item['price'].toString()),
+                            imgUrl: item['image_url'],
+                            quantity: int.parse(item['quantity'].toString()),
+                            productId: item['product_id'],
+                          );
+                        },
+                      );
+                    } else if (state is CartError) {
+                      return Center(
+                        child: Text(
+                          state.message,
+                          style: const TextStyle(color: Colors.red),
                         ),
+                      );
+                    }
+                    return Container();
+                  },
                 ),
               ),
               const Center(
@@ -66,9 +87,7 @@ class CartScreen extends StatelessWidget {
               ),
               BlocBuilder<CartCubit, CartState>(
                 builder: (context, state) {
-                  if (state is CartLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (state is CartSuccess) {
+                  if (state is CartSuccess) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Row(
@@ -88,15 +107,8 @@ class CartScreen extends StatelessWidget {
                         ],
                       ),
                     );
-                  } else if (state is CartError) {
-                    return Center(
-                      child: Text(
-                        state.message,
-                        style: const TextStyle(color: Colors.red),
-                      ),
-                    );
                   }
-                  return Container();
+                  return Container(); // Return empty container if not in CartSuccess state
                 },
               ),
               const SizedBox(height: 20),
@@ -110,7 +122,6 @@ class CartScreen extends StatelessWidget {
                         return OrderNotificationScreen();
                       },
                     );
-                    //Navigator.of(context).push(createRouteToCart());
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFA8483D),
@@ -134,25 +145,4 @@ class CartScreen extends StatelessWidget {
       ),
     );
   }
-}
-
-//?????
-Route createRouteToCart() {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) =>
-        OrderNotificationScreen(),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(1.0, 0.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-      var offsetAnimation = animation.drive(tween);
-
-      return SlideTransition(
-        position: offsetAnimation,
-        child: child,
-      );
-    },
-  );
 }

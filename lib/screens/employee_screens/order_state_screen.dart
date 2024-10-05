@@ -10,7 +10,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../components/containers/custom_background_container.dart';
 
 class OrderStateScreen extends StatelessWidget {
-  const OrderStateScreen({super.key});
+  const OrderStateScreen(
+      {super.key, required this.orderID, required this.userName});
+  final int orderID;
+  final String userName;
 
   String formatTime(int seconds) {
     int minutes = (seconds / 60).floor();
@@ -23,23 +26,26 @@ class OrderStateScreen extends StatelessWidget {
     return BlocProvider(
       create: (context) => OrderStateBloc(),
       child: Builder(builder: (context) {
+        context
+            .read<OrderStateBloc>()
+            .add(GetOrdersItemEvent(orderID: orderID));
         return CustomBackgroundContainer(
           child: Scaffold(
               backgroundColor: Colors.transparent,
-              appBar: const CustomAppBar(text: "Order\n#1234"),
+              appBar: CustomAppBar(text: "Order\n #${orderID.toString()}"),
               body: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 child: BlocBuilder<OrderStateBloc, OrderStateState>(
                   builder: (context, state) {
-                    if (state is OrderStateInitial) {
+                    if (state is OrdersItemState) {
                       return Column(
                         children: [
                           Expanded(
                             child: ListView(
                               children: [
-                                const CustomText(
-                                  text: "Name: aaaaa",
+                                CustomText(
+                                  text: "Name: $userName",
                                   color: Color(0xffF4F4F4),
                                   size: 20,
                                   weight: FontWeight.w600,
@@ -47,26 +53,22 @@ class OrderStateScreen extends StatelessWidget {
                                 const SizedBox(
                                   height: 40,
                                 ),
-                                CustomOrderContainer(
-                                    image: CircleAvatar(
-                                      radius: 35,
-                                      child: Image.asset(
-                                        "assets/images/Cappuccino1.png",
+                                Column(
+                                  children: state.orderItem.map((item) {
+                                    final totalPrice = item['product']['price'] * item['quantity'];
+                                    print("Item: $item");
+                                    return CustomOrderContainer(
+                                      image: Image.network(
+                                        item['product']['image_url'],
                                         fit: BoxFit.contain,
                                       ),
-                                    ),
-                                    title: "Cappuccino",
-                                    subtitle: "12 SAR"),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                CustomOrderContainer(
-                                    image: Image.asset(
-                                        "assets/images/Cappuccino1.png"),
-                                    title: "Cappuccino",
-                                    subtitle: "12 SAR"),
-                                const SizedBox(
-                                  height: 40,
+                                      title: item['product']['name'],
+                                      subtitle:
+                                          "${totalPrice.toString()} SAR",
+                                      quantity:
+                                          "X ${item['quantity'].toString()}",
+                                    );
+                                  }).toList(),
                                 ),
                               ],
                             ),
@@ -80,7 +82,7 @@ class OrderStateScreen extends StatelessWidget {
                                 onPressed: () {
                                   context
                                       .read<OrderStateBloc>()
-                                      .add(StartTimerEvent());
+                                      .add(StartTimerEvent(orderID: orderID));
                                 },
                                 child: const CustomText(
                                     text: "Start",
@@ -98,8 +100,8 @@ class OrderStateScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const CustomText(
-                                  text: "Name: aaaaa",
+                                CustomText(
+                                  text: "Name: $userName",
                                   color: Color(0xffF4F4F4),
                                   size: 20,
                                   weight: FontWeight.w600,
@@ -133,7 +135,8 @@ class OrderStateScreen extends StatelessWidget {
                                 onPressed: () {
                                   context
                                       .read<OrderStateBloc>()
-                                      .add(StopTimerEvent());
+                                      .add(StopTimerEvent(orderID: orderID));
+                                  Navigator.pop(context);
                                 },
                                 child: const CustomText(
                                     text: "Done",
@@ -144,15 +147,15 @@ class OrderStateScreen extends StatelessWidget {
                           )
                         ],
                       );
-                    } else {
+                    } else if (state is StoppedState) {
                       return Column(
                         children: [
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const CustomText(
-                                  text: "Name: aaaaa",
+                                CustomText(
+                                  text: "Name: $userName",
                                   color: Color(0xffF4F4F4),
                                   size: 20,
                                   weight: FontWeight.w600,
@@ -183,7 +186,12 @@ class OrderStateScreen extends StatelessWidget {
                               width: 287,
                               child: CustomElevatedButton(
                                 backgroundColor: const Color(0xffA8483D),
-                                onPressed: () {},
+                                onPressed: () {
+                                  context
+                                      .read<OrderStateBloc>()
+                                      .add(StopTimerEvent(orderID: orderID));
+                                  Navigator.pop(context);
+                                },
                                 child: const CustomText(
                                     text: "Done",
                                     color: Color(0xffF4F4F4),
@@ -192,6 +200,11 @@ class OrderStateScreen extends StatelessWidget {
                             ),
                           )
                         ],
+                      );
+                    } else {
+                      return Center(
+                        child: Lottie.asset(
+                            "assets/json/Animation - 1727813605870.json"),
                       );
                     }
                   },

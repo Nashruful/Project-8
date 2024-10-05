@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:onze_cofe_project/screens/cart_screen/cart_screen.dart';
 
 class CustomDrawer extends StatelessWidget {
+  const CustomDrawer({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Color.fromRGBO(244, 244, 244, 0.9),
+      backgroundColor: const Color.fromRGBO(244, 244, 244, 0.9),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(30),
@@ -18,7 +20,7 @@ class CustomDrawer extends StatelessWidget {
       ),
       child: Column(
         children: <Widget>[
-          SizedBox(height: 160),
+          const SizedBox(height: 160),
           Expanded(
             child: ListView(
               padding: EdgeInsets.zero,
@@ -59,7 +61,7 @@ class CustomDrawer extends StatelessWidget {
       title: Row(
         children: <Widget>[
           Image.asset('assets/images/star.png'),
-          Padding(
+          const Padding(
             padding: EdgeInsets.only(left: 8.0),
             child: Text(
               'Hello, USERNAME',
@@ -83,10 +85,10 @@ class CustomDrawer extends StatelessWidget {
       title: Row(
         children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(left: 8.0),
+            padding: const EdgeInsets.only(left: 8.0),
             child: Text(
               text,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 16,
                 color: Color.fromRGBO(61, 107, 125, 1),
               ),
@@ -101,7 +103,7 @@ class CustomDrawer extends StatelessWidget {
 
 Route createRouteToCart() {
   return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => CartScreen(),
+    pageBuilder: (context, animation, secondaryAnimation) => const CartScreen(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(1.0, 0.0); 
       const end = Offset.zero; 

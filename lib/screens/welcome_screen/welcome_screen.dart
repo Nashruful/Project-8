@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onze_cofe_project/components/custom_text/custom_text.dart';
+import 'package:onze_cofe_project/data_layer/data_layer.dart';
+import 'package:onze_cofe_project/screens/auth/create_account_screen.dart';
 import 'package:onze_cofe_project/screens/welcome_screen/cubit/welcome_cubit.dart';
+import 'package:onze_cofe_project/setup/setup_init.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({super.key});
@@ -34,19 +37,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                           Stack(
                             children: [
                               Flexible(
-                                child: Opacity(
-                                  opacity: 0.85,
-                                  child: Image.asset(
-                                    "assets/images/unsplash_TYIzeCiZ_60.png",
-                                    fit: BoxFit.cover,
-                                    width: MediaQuery.of(context).size.width,
-                                    height: MediaQuery.of(context).size.height,
-                                  ),
+                                child: Image.asset(
+                                  "assets/images/unsplash_TYIzeCiZ_60.png",
+                                  fit: BoxFit.cover,
+                                  width: MediaQuery.of(context).size.width,
+                                  height: MediaQuery.of(context).size.height,
                                 ),
                               ),
                               const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: const Column(
+                                child: Column(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Align(
@@ -86,7 +86,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               ),
                               const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: const Column(
+                                child: Column(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Align(
@@ -126,7 +126,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               ),
                               const Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: const Column(
+                                child: Column(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Align(
@@ -161,7 +161,16 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
                           child: ElevatedButton(
-                              onPressed: () {
+                              onPressed: () async{
+                                if (context.read<WelcomeCubit>().currentPage ==
+                                    2) {
+                                     await getIt.get<DataLayer>().firstVisit();
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              CreateAccountScreen()));
+                                }
                                 context.read<WelcomeCubit>().nextPage();
                                 _pageController.animateToPage(
                                   context.read<WelcomeCubit>().currentPage,

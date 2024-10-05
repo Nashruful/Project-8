@@ -1,61 +1,49 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:onze_cofe_project/data_layer/data_layer.dart';
+import 'package:onze_cofe_project/setup/setup_init.dart';
 
 part 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
-  double unitPrice = 12.0;   //give item price
-  int quantity = 1;  //give items list lngh 
+  List<Map<String, dynamic>> cartItems; // List of items in the cart
 
-  CartCubit()
-      : super(CartSuccess(totalPrice: 12.0, quantity: 1, unitPrice: 12.0));
+  CartCubit(this.cartItems)
+      : super(CartSuccess(
+            totalPrice: _calculateTotalPrice(cartItems), cartItems: cartItems));
 
-  void increaseQuantity() {
+  static double _calculateTotalPrice(List<Map<String, dynamic>> items) {
+    return items.fold(
+        0.0, (total, item) => total + (item['price'] * item['quantity']));
+  }
+
+  void increaseQuantity(int productId) {
     try {
-      final currentQuantity =
-          (state is CartSuccess) ? (state as CartSuccess).quantity : quantity;
-      final updatedQuantity = currentQuantity + 1; 
-
-      emit(CartSuccess(
-        totalPrice: unitPrice * updatedQuantity,
-        quantity: updatedQuantity,
-        unitPrice: unitPrice,
-      ));
+      print('Increasing quantity for productId: $cartItems');
+      final index =
+          cartItems.indexWhere((item) => item['product_id'] == productId);
+      if (index != -1) {
+        // Call addToCart function with the current item
+        getIt.get<DataLayer>().addToCart(item: cartItems[index]);
+        emit(CartSuccess(
+            totalPrice: _calculateTotalPrice(cartItems), cartItems: cartItems));
+      }
     } catch (e) {
       emit(CartError(message: e.toString()));
     }
   }
 
- 
-  void decreaseQuantity() {
+  void decreaseQuantity(int productId) {
     try {
-    
-      final currentQuantity =
-          (state is CartSuccess) ? (state as CartSuccess).quantity : quantity;
-      final updatedQuantity = currentQuantity > 1
-          ? currentQuantity - 1
-          : 1; 
+      final index =
+          cartItems.indexWhere((item) => item['product_id'] == productId);
+      if (index != -1) {
+        // Call decrementItemQuantity function with the current item
+        getIt.get<DataLayer>().decrementItemQuantity(item: cartItems[index]);
 
-      emit(CartSuccess(
-        totalPrice: unitPrice * updatedQuantity,
-        quantity: updatedQuantity,
-        unitPrice: unitPrice,
-      ));
-    } catch (e) {
-      emit(CartError(message: e.toString()));
-    }
-  }
-
-  void setUnitPrice(double newPrice) {
-    try {
-      final currentQuantity =
-          (state is CartSuccess) ? (state as CartSuccess).quantity : quantity;
-
-      emit(CartSuccess(
-        totalPrice: newPrice * currentQuantity,
-        quantity: currentQuantity,
-        unitPrice: newPrice,
-      ));
+        emit(CartSuccess(
+            totalPrice: _calculateTotalPrice(cartItems), cartItems: cartItems));
+      }
     } catch (e) {
       emit(CartError(message: e.toString()));
     }

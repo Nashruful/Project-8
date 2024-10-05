@@ -3,14 +3,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onze_cofe_project/screens/cart_screen/cubit/cart_cubit.dart';
 
 class CartItem extends StatelessWidget {
-  const CartItem(
-      {super.key,
-      required this.name,
-      required this.price,
-      required this.imgUrl});
+  const CartItem({
+    super.key,
+    required this.name,
+    required this.price,
+    required this.imgUrl,
+    required this.quantity,
+    required this.productId, // Add productId
+  });
+
   final String name;
   final double price;
   final String imgUrl;
+  final int quantity;
+  final int productId; // Add productId
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -38,27 +45,19 @@ class CartItem extends StatelessWidget {
                 children: [
                   Text(
                     name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Color.fromRGBO(61, 107, 125, 1),
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(height: 5),
-                  BlocBuilder<CartCubit, CartState>(
-                    builder: (context, state) {
-                      if (state is CartSuccess) {
-                        return Text(
-                          "${price.toStringAsFixed(2)} SAR", //??????????
-                          style: const TextStyle(
-                            color: Color(0xff3D6B7D),
-                            fontSize: 16,
-                          ),
-                        );
-                      }
-
-                      return Container();
-                    },
+                  Text(
+                    "${(price * quantity).toStringAsFixed(2)} SAR",
+                    style: const TextStyle(
+                      color: Color(0xff3D6B7D),
+                      fontSize: 16,
+                    ),
                   ),
                 ],
               ),
@@ -81,21 +80,14 @@ class CartItem extends StatelessWidget {
                         size: 16,
                       ),
                       onPressed: () {
-                        context.read<CartCubit>().increaseQuantity();
+                        context
+                            .read<CartCubit>()
+                            .increaseQuantity(productId); // Use productId
                       },
                     ),
-                    BlocBuilder<CartCubit, CartState>(
-                      builder: (context, state) {
-                        if (state is CartSuccess) {
-                          return Text(
-                            "${state.quantity}",
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 14),
-                          );
-                        }
-
-                        return Container();
-                      },
+                    Text(
+                      "$quantity", // Display current quantity
+                      style: const TextStyle(color: Colors.white, fontSize: 14),
                     ),
                     IconButton(
                       icon: const Icon(
@@ -104,7 +96,8 @@ class CartItem extends StatelessWidget {
                         size: 16,
                       ),
                       onPressed: () {
-                        context.read<CartCubit>().decreaseQuantity();
+                        context.read<CartCubit>().decreaseQuantity(
+                            productId); // Use productId
                       },
                     ),
                   ],

@@ -4,8 +4,7 @@ import 'package:get_storage/get_storage.dart';
 
 final getIt = GetIt.instance;
 
-void setup() async {
-  getIt.registerSingleton<DataLayer>(DataLayer());
-
+Future<void> setup() async {
   await GetStorage.init();
+  getIt.registerSingleton<DataLayer>(DataLayer());
 }

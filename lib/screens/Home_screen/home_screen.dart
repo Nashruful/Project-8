@@ -48,7 +48,7 @@ class HomeScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 20,
                 color: bloc.selectedFilter == filter
-                    ? Color(0xff88B0C4)
+                    ? const Color(0xff88B0C4)
                     : const Color(0xff467283),
               ),
             ),
@@ -63,21 +63,20 @@ class HomeScreen extends StatelessWidget {
                 context: context,
                 barrierDismissible: false,
                 builder: (context) => const AlertDialog(
-                  backgroundColor: Colors.transparent,
-                  //    content: Lottie.asset(""), ======= PUT LOADING ANIMATION HERE ==========
-                ),
+                    backgroundColor: Colors.transparent,
+                    content: CircularProgressIndicator()),
               );
             } else if (state is SuccessState) {
-              Navigator.pop(context, true);
+              Navigator.pop(context);
             } else if (state is ErrorState) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
+                SnackBar(
                   content: Text(
-                    'error',
-                    style: TextStyle(color: Color(0xff467283)),
+                    state.msg,
+                    style: const TextStyle(color: Color(0xff467283)),
                   ),
-                  backgroundColor: Color(0xfff4f4f4),
-                  duration: Duration(seconds: 2),
+                  backgroundColor: const Color(0xfff4f4f4),
+                  duration: const Duration(seconds: 2),
                 ),
               );
             }
@@ -90,10 +89,15 @@ class HomeScreen extends StatelessWidget {
               iconTheme: const IconThemeData(color: Color(0xffF4F4F4)),
               actions: [
                 IconButton(onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => CartScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CartScreen()));
                 }, icon: BlocBuilder<HomeBloc, HomeState>(
                   builder: (context, state) {
+                    if (getIt.get<DataLayer>().viewCartItems().length == 0) {
+                      return SvgPicture.asset('assets/svg/cart.svg');
+                    }
                     return Badge.count(
                         backgroundColor: const Color(0xffA8483D),
                         count: getIt
@@ -110,7 +114,7 @@ class HomeScreen extends StatelessWidget {
 
               backgroundColor: const Color.fromARGB(0, 255, 255, 255),
             ),
-            drawer: CustomDrawer(),
+            drawer: const CustomDrawer(),
             body: CustomBackgroundContainer(
               child: Center(
                 child: Column(
@@ -122,8 +126,13 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: TextField(
-                              style: TextStyle(color: Color(0xfff4f4f4)),
-                              cursorColor: Color(0xfff4f4f4),
+                              onChanged: (value) {
+                                bloc.searchQuery = value;
+
+                                bloc.add(SearchEvent());
+                              },
+                              style: const TextStyle(color: Color(0xfff4f4f4)),
+                              cursorColor: const Color(0xfff4f4f4),
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor:
@@ -183,7 +192,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     const Spacer(),
                     BlocBuilder<HomeBloc, HomeState>(builder: (context, state) {
-                      if (state is SuccessState) {
+                      if (state is SuccessState || state is SearchItemState) {
                         return SizedBox(
                           height: 500,
                           child: Stack(
@@ -219,7 +228,7 @@ class HomeScreen extends StatelessWidget {
                                 itemHeight: 500,
                                 itemBuilder: (context, index) {
                                   currentIndex = index;
-                                  final item = bloc.items[index];
+                                  final item = bloc.filteredQuery[index];
                                   return CoffeeCard(
                                     name: item['name'],
                                     price:
@@ -228,7 +237,7 @@ class HomeScreen extends StatelessWidget {
                                     cal: item['calories'].toString(),
                                   );
                                 },
-                                itemCount: bloc.items.length,
+                                itemCount: bloc.filteredQuery.length,
                                 pagination: const SwiperPagination(
                                   builder: FractionPaginationBuilder(
                                     activeColor: Color(0xff3D6B7D),
@@ -250,7 +259,7 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                       onPressed: () {
                                         //==========save in storage ===========
-                                        print(currentIndex);
+                                        // print(currentIndex);
                                         getIt.get<DataLayer>().addToCart(
                                             item: bloc.items[currentIndex - 1]);
                                         ScaffoldMessenger.of(context)
@@ -261,11 +270,11 @@ class HomeScreen extends StatelessWidget {
                                               style: TextStyle(
                                                   color: Color(0xff467283)),
                                             ),
-                                            backgroundColor: Color.fromARGB(
-                                                206, 70, 114, 131),
+                                            backgroundColor: Color(0xfff4f4f4),
                                             duration: Duration(seconds: 2),
                                           ),
                                         );
+                                        bloc.add(SearchEvent());
                                       },
                                       child: const Text(
                                         '+ Add To Cart',
@@ -281,6 +290,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                         );
                       }
+
                       return const SizedBox(); //show nothing
                     })
                   ],

@@ -4,6 +4,7 @@ import 'package:onze_cofe_project/components/containers/custom_background_contai
 import 'package:onze_cofe_project/components/item/cartItem.dart';
 import 'package:onze_cofe_project/data_layer/data_layer.dart';
 import 'package:onze_cofe_project/screens/order_notification_screen.dart';
+import 'package:onze_cofe_project/screens/payment_screen/payment_screen.dart';
 import 'package:onze_cofe_project/setup/setup_init.dart';
 
 import 'cubit/cart_cubit.dart';
@@ -116,12 +117,16 @@ class CartScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(30.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return OrderNotificationScreen();
-                      },
-                    );
+                    // showModalBottomSheet(
+                    //   context: context,
+                    //   builder: (BuildContext context) {
+                    //     return OrderNotificationScreen();
+                    //   },
+                    // );
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => PaymentScreen()));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFA8483D),

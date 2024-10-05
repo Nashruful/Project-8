@@ -9,6 +9,7 @@ part 'track_order_state.dart';
 
 class TrackOrderBloc extends Bloc<TrackOrderEvent, TrackOrderState> {
   final supabase = getIt.get<DataLayer>().supabase;
+  int orderID = 4;
   TrackOrderBloc() : super(TrackOrderInitial()) {
     on<TrackOrderEvent>((event, emit) {});
 
@@ -29,7 +30,7 @@ class TrackOrderBloc extends Bloc<TrackOrderEvent, TrackOrderState> {
     final status = await supabase
         .from('orders')
         .select('status')
-        .eq('order_id', 4)
+        .eq('order_id', orderID)
         .single();
 
     return status['status'];

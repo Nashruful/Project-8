@@ -7,26 +7,27 @@ part 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
   List<Map<String, dynamic>> cartItems; // List of items in the cart
+  double priceTotal; 
 
   CartCubit(this.cartItems)
-      : super(CartSuccess(
-            totalPrice: _calculateTotalPrice(cartItems), cartItems: cartItems));
+      : priceTotal = _calculateTotalPrice(cartItems),
+        super(CartSuccess(totalPrice: _calculateTotalPrice(cartItems), cartItems: cartItems));
 
   static double _calculateTotalPrice(List<Map<String, dynamic>> items) {
-    return items.fold(
-        0.0, (total, item) => total + (item['price'] * item['quantity']));
+    return items.fold(0.0, (total, item) => total + (item['price'] * item['quantity']));
   }
 
   void increaseQuantity(int productId) {
     try {
-      print('Increasing quantity for productId: $cartItems');
-      final index =
-          cartItems.indexWhere((item) => item['product_id'] == productId);
+      final index = cartItems.indexWhere((item) => item['product_id'] == productId);
       if (index != -1) {
         // Call addToCart function with the current item
         getIt.get<DataLayer>().addToCart(item: cartItems[index]);
-        emit(CartSuccess(
-            totalPrice: _calculateTotalPrice(cartItems), cartItems: cartItems));
+
+        // Update the cartItems and priceTotal
+        priceTotal = _calculateTotalPrice(cartItems);
+
+        emit(CartSuccess(totalPrice: priceTotal, cartItems: cartItems));
       }
     } catch (e) {
       emit(CartError(message: e.toString()));
@@ -35,14 +36,15 @@ class CartCubit extends Cubit<CartState> {
 
   void decreaseQuantity(int productId) {
     try {
-      final index =
-          cartItems.indexWhere((item) => item['product_id'] == productId);
+      final index = cartItems.indexWhere((item) => item['product_id'] == productId);
       if (index != -1) {
         // Call decrementItemQuantity function with the current item
         getIt.get<DataLayer>().decrementItemQuantity(item: cartItems[index]);
 
-        emit(CartSuccess(
-            totalPrice: _calculateTotalPrice(cartItems), cartItems: cartItems));
+        // Update the cartItems and priceTotal
+        priceTotal = _calculateTotalPrice(cartItems);
+
+        emit(CartSuccess(totalPrice: priceTotal, cartItems: cartItems));
       }
     } catch (e) {
       emit(CartError(message: e.toString()));

@@ -10,6 +10,8 @@ class DataLayer {
   final box = GetStorage();
   List<Map<String, dynamic>> itemsList = [];
 
+  int? orderID;
+
   DataLayer() {
     box.erase();
     print("heeeeeeeereeeeeeeeeeeee $firstTimeJoin ---- $currentUserInfo");

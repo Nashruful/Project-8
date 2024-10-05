@@ -27,12 +27,13 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {
               {
                 if (bloc.selectedFilter == filter) {
+                  print(filter);
                   // do nothing
                   return;
                 } else {
                   // Select the new filter
                   bloc.selectedFilter = filter;
-
+                  print(filter);
                   if (filter == 'All') {
                     bloc.add(LoadScreenEvent());
                     Navigator.pop(context);
@@ -95,7 +96,7 @@ class HomeScreen extends StatelessWidget {
                           builder: (context) => const CartScreen()));
                 }, icon: BlocBuilder<HomeBloc, HomeState>(
                   builder: (context, state) {
-                    if (getIt.get<DataLayer>().viewCartItems().length == 0) {
+                    if (getIt.get<DataLayer>().viewCartItems().isEmpty) {
                       return SvgPicture.asset('assets/svg/cart.svg');
                     }
                     return Badge.count(
@@ -227,7 +228,9 @@ class HomeScreen extends StatelessWidget {
                                 itemWidth: double.infinity,
                                 itemHeight: 500,
                                 itemBuilder: (context, index) {
-                                  currentIndex = index;
+                                  index > 0
+                                      ? currentIndex = index - 1
+                                      : currentIndex = bloc.items.length - 1;
                                   final item = bloc.filteredQuery[index];
                                   return CoffeeCard(
                                     name: item['name'],
@@ -259,9 +262,10 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                       onPressed: () {
                                         //==========save in storage ===========
-                                        // print(currentIndex);
+                                        print(currentIndex);
                                         getIt.get<DataLayer>().addToCart(
-                                            item: bloc.items[currentIndex - 1]);
+                                            item: bloc
+                                                .filteredQuery[currentIndex]);
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           const SnackBar(
@@ -271,7 +275,8 @@ class HomeScreen extends StatelessWidget {
                                                   color: Color(0xff467283)),
                                             ),
                                             backgroundColor: Color(0xfff4f4f4),
-                                            duration: Duration(seconds: 2),
+                                            duration:
+                                                Duration(milliseconds: 500),
                                           ),
                                         );
                                         bloc.add(SearchEvent());

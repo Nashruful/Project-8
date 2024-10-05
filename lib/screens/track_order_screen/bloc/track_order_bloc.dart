@@ -9,12 +9,16 @@ part 'track_order_state.dart';
 
 class TrackOrderBloc extends Bloc<TrackOrderEvent, TrackOrderState> {
   final supabase = getIt.get<DataLayer>().supabase;
-  int orderID = 4;
+  late int orderID;
   TrackOrderBloc() : super(TrackOrderInitial()) {
     on<TrackOrderEvent>((event, emit) {});
 
     on<GetTrackOrderStatusEvent>((event, emit) async {
+      orderID = event.orderID ?? 00;
       try {
+        if (orderID == 00) {
+          emit(ErrorState(msg: "No orders yet"));
+        }
         while (true) {
           final status = await getStatus();
           final index = getIndex(status);
@@ -22,7 +26,7 @@ class TrackOrderBloc extends Bloc<TrackOrderEvent, TrackOrderState> {
           await Future.delayed(const Duration(seconds: 1));
         }
       } catch (e) {
-        emit(ErrorState(msg: e.toString()));
+        emit(ErrorState(msg: "No orders yet"));
       }
     });
   }

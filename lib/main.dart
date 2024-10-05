@@ -2,7 +2,10 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:onze_cofe_project/screens/Home_screen/home_screen.dart';
+import 'package:onze_cofe_project/screens/auth/login_screen.dart';
+import 'package:onze_cofe_project/screens/employee_screens/orders_screen.dart';
 import 'package:onze_cofe_project/screens/splash_screen/splash_screen.dart';
+import 'package:onze_cofe_project/screens/track_order_screen/track_order_screen.dart';
 import 'package:onze_cofe_project/setup/setup_init.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -17,7 +20,7 @@ void main() async {
 
   await setup();
   runApp(DevicePreview(
-    enabled: true,
+    enabled: false,
     builder: (context) => const MainApp(), // Wrap your app
   ));
   OneSignal.Debug.setLogLevel(OSLogLevel.verbose);
@@ -34,7 +37,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(fontFamily: 'Poppins'),
-      home: HomeScreen(),
+      home: const LoginScreen(),
     );
   }
 }

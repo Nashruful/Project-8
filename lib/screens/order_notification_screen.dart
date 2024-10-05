@@ -9,7 +9,7 @@ class OrderNotificationScreen extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       // height: MediaQuery.of(context).size.height,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(40),
@@ -28,9 +28,9 @@ class OrderNotificationScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(height: 20),
-            SizedBox(height: 90),
-            Column(
+            const SizedBox(height: 20),
+            const SizedBox(height: 90),
+            const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -51,11 +51,11 @@ class OrderNotificationScreen extends StatelessWidget {
                 ),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             CustomElevatedButton(
               onPressed: () {}, //myaser page
-              backgroundColor: Color(0xFF3D6B7D),
-              child: Text(
+              backgroundColor: const Color(0xFF3D6B7D),
+              child: const Text(
                 'Proceed To Payment',
                 style: TextStyle(fontSize: 16, color: Colors.white),
               ),

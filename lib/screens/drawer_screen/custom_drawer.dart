@@ -1,7 +1,11 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'package:onze_cofe_project/data_layer/data_layer.dart';
+import 'package:onze_cofe_project/screens/auth/login_screen.dart';
 import 'package:onze_cofe_project/screens/cart_screen/cart_screen.dart';
+import 'package:onze_cofe_project/screens/contact_us/contact_us_screen.dart';
+import 'package:onze_cofe_project/screens/track_order_screen/track_order_screen.dart';
+import 'package:onze_cofe_project/setup/setup_init.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
@@ -34,7 +38,14 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 createDrawerItem(
                   text: 'Track Orders',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => TrackOrderScreen(
+                                  orderId: getIt.get<DataLayer>().orderID,
+                                )));
+                  },
                 ),
                 createDrawerItem(
                   text: 'Previous Orders',
@@ -42,11 +53,25 @@ class CustomDrawer extends StatelessWidget {
                 ),
                 createDrawerItem(
                   text: 'Contact Us',
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ContactUsScreen()));
+                  },
                 ),
                 createDrawerItem(
                   text: 'Sign out',
-                  onTap: () {},
+                  onTap: () {
+                    getIt.get<DataLayer>().currentUserInfo = null;
+                    getIt.get<DataLayer>().itemsList = [];
+                    getIt.get<DataLayer>().box.erase();
+                    getIt.get<DataLayer>().supabase.auth.signOut();
+                    OneSignal.logout();
+
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const LoginScreen()));
+                  },
                 ),
               ],
             ),
@@ -105,8 +130,8 @@ Route createRouteToCart() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => const CartScreen(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(1.0, 0.0); 
-      const end = Offset.zero; 
+      const begin = Offset(1.0, 0.0);
+      const end = Offset.zero;
       const curve = Curves.ease;
 
       var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));

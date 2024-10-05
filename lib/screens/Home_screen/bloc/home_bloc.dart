@@ -59,7 +59,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             .select()
             .eq("category", event.selectedFilter);
 
-        items = List<Map<String, dynamic>>.from(productIDResponse);
+        filteredQuery = List<Map<String, dynamic>>.from(productIDResponse);
 
         emit(SuccessState());
       } on AuthException catch (e) {

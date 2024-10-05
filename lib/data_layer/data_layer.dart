@@ -5,40 +5,72 @@ class DataLayer {
   final supabase = Supabase.instance.client;
   Map? currentUserInfo = {};
 
-  String? firstTimeJoin ;
+  String? firstTimeJoin;
 
   final box = GetStorage();
-  List<Map> itemsList = [];
+  List<Map<String, dynamic>> itemsList = [];
 
   DataLayer() {
     print("heeeeeeeereeeeeeeeeeeee $firstTimeJoin ---- $currentUserInfo");
     loadData();
   }
-
   void addToCart({required Map<String, dynamic> item}) {
-    if (!itemsList.contains(item)) {
-      //  item['quantity'] = 1; //add quantity key to the map
-      itemsList.add(item); //add the item to list
+    // box.erase();
+    // Retrieve the existing items from storage
+    List<Map<String, dynamic>> itemsList = viewCartItems();
+
+    // Check if the item already exists based on the product_id
+    int existingItemIndex = itemsList.indexWhere(
+        (existingItem) => existingItem['product_id'] == item['product_id']);
+
+    if (existingItemIndex == -1) {
+      // If the item does not exist, set a default quantity and add it
+      item['quantity'] = 1; // Set default quantity
+      itemsList.add(item); // Add the new item to the list
+    } else {
+      // If the item exists, increment its quantity
+      incrementItemQuantity(itemsList[existingItemIndex]);
     }
 
-    box.write('ProductsList', itemsList); // Store the item in the box
+    box.write('ProductsList', itemsList);
   }
+
+  void incrementItemQuantity(Map<String, dynamic> item) {
+    // Increment quantity
+    item['quantity'] = (item['quantity'] ?? 0) + 1;
+    print('Item quantity updated to: ${item['quantity']}');
+  }
+
+  void decrementItemQuantity({required Map<String, dynamic> item}) {
+  // Retrieve the existing items from storage
+  List<Map<String, dynamic>> itemsList = viewCartItems();
+
+  // Find the index of the item in the list
+  int existingItemIndex = itemsList.indexWhere((existingItem) => existingItem['product_id'] == item['product_id']);
+
+  if (existingItemIndex != -1) {
+    // Decrement the quantity safely
+    itemsList[existingItemIndex]['quantity'] = (itemsList[existingItemIndex]['quantity'] ?? 1) - 1;
+
+    // Check if the quantity is now 0 or less
+    if (itemsList[existingItemIndex]['quantity'] <= 0) {
+      // Remove the item from the list
+      itemsList.removeAt(existingItemIndex);
+    }
+
+    // Store the updated list back in the box
+    box.write('ProductsList', itemsList);
+  } 
+}
 
   void removeFromCart({required Map<String, dynamic> item}) {
     //func to remove from cart
-  }
-
-  void incrementItemQuantity({required Map<String, dynamic> item}) {
-    //func to increment quantity
-    item['quantity'] = item['quantity']++;
   }
 
   List<Map<String, dynamic>> viewCartItems() {
     // Retrieve the stored item
     var storedItem = box.read('ProductsList') ?? [];
     return List<Map<String, dynamic>>.from(storedItem);
-    // print('Stored Item: $storedItem');
-    // print(storedItem.length);
   }
 
   getUserInfo() async {
@@ -61,7 +93,7 @@ class DataLayer {
     //   currentUserInfo =  box.read("currentUser");
     // }
     if (box.hasData("firstTime")) {
-      firstTimeJoin =  box.read("firstTime");
+      firstTimeJoin = box.read("firstTime");
     }
   }
 }

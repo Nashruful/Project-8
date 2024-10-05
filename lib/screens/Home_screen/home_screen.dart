@@ -95,7 +95,9 @@ class HomeScreen extends StatelessWidget {
                           builder: (context) => const CartScreen()));
                 }, icon: BlocBuilder<HomeBloc, HomeState>(
                   builder: (context, state) {
-                   
+                    if (getIt.get<DataLayer>().viewCartItems().length == 0) {
+                      return SvgPicture.asset('assets/svg/cart.svg');
+                    }
                     return Badge.count(
                         backgroundColor: const Color(0xffA8483D),
                         count: getIt
@@ -257,7 +259,7 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                       onPressed: () {
                                         //==========save in storage ===========
-
+                                        // print(currentIndex);
                                         getIt.get<DataLayer>().addToCart(
                                             item: bloc.items[currentIndex - 1]);
                                         ScaffoldMessenger.of(context)
@@ -268,8 +270,7 @@ class HomeScreen extends StatelessWidget {
                                               style: TextStyle(
                                                   color: Color(0xff467283)),
                                             ),
-                                            backgroundColor: Color.fromARGB(
-                                                206, 70, 114, 131),
+                                            backgroundColor: Color(0xfff4f4f4),
                                             duration: Duration(seconds: 2),
                                           ),
                                         );

@@ -6,6 +6,7 @@ import 'package:onze_cofe_project/components/custom_elevated_button/custom_eleva
 import 'package:onze_cofe_project/components/custom_text/custom_text.dart';
 import 'package:onze_cofe_project/screens/employee_screens/bloc/order_state_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dio/dio.dart';
 
 import '../../components/containers/custom_background_container.dart';
 
@@ -138,10 +139,47 @@ class OrderStateScreen extends StatelessWidget {
                               width: 287,
                               child: CustomElevatedButton(
                                 backgroundColor: const Color(0xffA8483D),
-                                onPressed: () {
+                                onPressed: () async {
                                   context
                                       .read<OrderStateBloc>()
                                       .add(StopTimerEvent(orderID: orderID));
+                                  print("UserID------------ $userID");
+
+                                  final dio = Dio();
+                                  try {
+                                    final response = await dio.post(
+                                      "https://api.onesignal.com/api/v1/notifications",
+                                      data: {
+                                        "app_id":
+                                            "ebdec5c2-30a4-447d-9577-a1c13b6d553e",
+                                        "contents": {
+                                          "en": "Your Cafe is ready!"
+                                        },
+                                        "include_external_user_ids": [
+                                          userID
+                                        ], // Correct field name
+                                      },
+                                      options: Options(headers: {
+                                        "Authorization":
+                                            "Bearer ZGU5ZmExOTEtNmFiZC00ZTUxLTgyMGYtNjc4MDJlYjUyNmM4",
+                                        'Content-Type':
+                                            'application/json', // Ensure correct casing
+                                      }),
+                                    );
+
+                                    print(
+                                        "------------------- ${response.data}");
+                                    print(
+                                        "------------------- ${response.statusCode}");
+                                  } on DioException catch (e) {
+                                    print("Dio error: ${e.message}");
+                                    if (e.response != null) {
+                                      print(
+                                          "Response data: ${e.response!.data}");
+                                    }
+                                  } catch (e) {
+                                    print("Error: ${e.toString()}");
+                                  }
 
                                   Navigator.pop(context);
                                 },

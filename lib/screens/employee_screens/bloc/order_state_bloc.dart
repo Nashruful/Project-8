@@ -13,6 +13,7 @@ part 'order_state_state.dart';
 class OrderStateBloc extends Bloc<OrderStateEvent, OrderStateState> {
   Timer? timer;
   final supabase = getIt.get<DataLayer>().supabase;
+  
 
   OrderStateBloc() : super(OrderStateInitial()) {
     on<OrderStateEvent>((event, emit) {});
@@ -96,6 +97,7 @@ class OrderStateBloc extends Bloc<OrderStateEvent, OrderStateState> {
       add(RunTimerEvent());
     });
   }
+  
 
   @override
   Future<void> close() {

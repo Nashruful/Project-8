@@ -104,7 +104,12 @@ class CartScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(30.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    //showBottomSheet(context: context, builder: (context))
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return OrderNotificationScreen();
+                      },
+                    );
                     //Navigator.of(context).push(createRouteToCart());
                   },
                   style: ElevatedButton.styleFrom(

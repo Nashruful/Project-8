@@ -9,7 +9,6 @@ import 'package:onze_cofe_project/screens/cart_screen/cart_screen.dart';
 import 'package:onze_cofe_project/screens/drawer_screen/custom_drawer.dart';
 import 'package:onze_cofe_project/setup/setup_init.dart';
 
-
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -251,7 +250,7 @@ class HomeScreen extends StatelessWidget {
                                       ),
                                       onPressed: () {
                                         //==========save in storage ===========
-
+                                        print(currentIndex);
                                         getIt.get<DataLayer>().addToCart(
                                             item: bloc.items[currentIndex - 1]);
                                         ScaffoldMessenger.of(context)

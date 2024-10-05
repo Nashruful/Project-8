@@ -8,8 +8,8 @@ import 'package:onze_cofe_project/screens/track_order_screen/track_order_screen.
 import 'package:onze_cofe_project/setup/setup_init.dart';
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({super.key});
-
+  CustomDrawer({super.key, required this.name});
+  final String name;
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -65,12 +65,15 @@ class CustomDrawer extends StatelessWidget {
                   onTap: () {
                     getIt.get<DataLayer>().currentUserInfo = null;
                     getIt.get<DataLayer>().itemsList = [];
-                    getIt.get<DataLayer>().box.erase();
+                    getIt.get<DataLayer>().box.remove("ProductsList");
+                    getIt.get<DataLayer>().box.remove("currentUser");
                     getIt.get<DataLayer>().supabase.auth.signOut();
                     OneSignal.logout();
 
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => const LoginScreen()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginScreen()));
                   },
                 ),
               ],
@@ -86,10 +89,10 @@ class CustomDrawer extends StatelessWidget {
       title: Row(
         children: <Widget>[
           Image.asset('assets/images/star.png'),
-          const Padding(
+          Padding(
             padding: EdgeInsets.only(left: 8.0),
             child: Text(
-              'Hello, USERNAME',
+              'Hello,$name',
               style: TextStyle(
                 color: Color.fromRGBO(61, 107, 125, 1),
                 fontSize: 18,

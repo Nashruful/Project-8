@@ -2,14 +2,12 @@ PODS:
   - app_links (0.0.2):
     - Flutter
   - Flutter (1.0.0)
-  - flutter_secure_storage (6.0.0):
+  - onesignal_flutter (5.2.6):
     - Flutter
-  - onesignal_flutter (5.2.5):
-    - Flutter
-    - OneSignalXCFramework (= 5.2.4)
-  - OneSignalXCFramework (5.2.4):
-    - OneSignalXCFramework/OneSignalComplete (= 5.2.4)
-  - OneSignalXCFramework/OneSignal (5.2.4):
+    - OneSignalXCFramework (= 5.2.5)
+  - OneSignalXCFramework (5.2.5):
+    - OneSignalXCFramework/OneSignalComplete (= 5.2.5)
+  - OneSignalXCFramework/OneSignal (5.2.5):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalExtension
     - OneSignalXCFramework/OneSignalLiveActivities
@@ -17,38 +15,38 @@ PODS:
     - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalOutcomes
     - OneSignalXCFramework/OneSignalUser
-  - OneSignalXCFramework/OneSignalComplete (5.2.4):
+  - OneSignalXCFramework/OneSignalComplete (5.2.5):
     - OneSignalXCFramework/OneSignal
     - OneSignalXCFramework/OneSignalInAppMessages
     - OneSignalXCFramework/OneSignalLocation
-  - OneSignalXCFramework/OneSignalCore (5.2.4)
-  - OneSignalXCFramework/OneSignalExtension (5.2.4):
+  - OneSignalXCFramework/OneSignalCore (5.2.5)
+  - OneSignalXCFramework/OneSignalExtension (5.2.5):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalOutcomes
-  - OneSignalXCFramework/OneSignalInAppMessages (5.2.4):
+  - OneSignalXCFramework/OneSignalInAppMessages (5.2.5):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalNotifications
     - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalOutcomes
     - OneSignalXCFramework/OneSignalUser
-  - OneSignalXCFramework/OneSignalLiveActivities (5.2.4):
+  - OneSignalXCFramework/OneSignalLiveActivities (5.2.5):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalUser
-  - OneSignalXCFramework/OneSignalLocation (5.2.4):
+  - OneSignalXCFramework/OneSignalLocation (5.2.5):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalNotifications
     - OneSignalXCFramework/OneSignalOSCore
     - OneSignalXCFramework/OneSignalUser
-  - OneSignalXCFramework/OneSignalNotifications (5.2.4):
+  - OneSignalXCFramework/OneSignalNotifications (5.2.5):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalExtension
     - OneSignalXCFramework/OneSignalOutcomes
-  - OneSignalXCFramework/OneSignalOSCore (5.2.4):
+  - OneSignalXCFramework/OneSignalOSCore (5.2.5):
     - OneSignalXCFramework/OneSignalCore
-  - OneSignalXCFramework/OneSignalOutcomes (5.2.4):
+  - OneSignalXCFramework/OneSignalOutcomes (5.2.5):
     - OneSignalXCFramework/OneSignalCore
-  - OneSignalXCFramework/OneSignalUser (5.2.4):
+  - OneSignalXCFramework/OneSignalUser (5.2.5):
     - OneSignalXCFramework/OneSignalCore
     - OneSignalXCFramework/OneSignalNotifications
     - OneSignalXCFramework/OneSignalOSCore
@@ -65,7 +63,6 @@ PODS:
 DEPENDENCIES:
   - app_links (from `.symlinks/plugins/app_links/ios`)
   - Flutter (from `Flutter`)
-  - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
@@ -80,8 +77,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/app_links/ios"
   Flutter:
     :path: Flutter
-  flutter_secure_storage:
-    :path: ".symlinks/plugins/flutter_secure_storage/ios"
   onesignal_flutter:
     :path: ".symlinks/plugins/onesignal_flutter/ios"
   path_provider_foundation:
@@ -94,13 +89,12 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   app_links: e7a6750a915a9e161c58d91bc610e8cd1d4d0ad0
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_secure_storage: d33dac7ae2ea08509be337e775f6b59f1ff45f12
-  onesignal_flutter: bdebb6b09781cac5e2a4b401002edda258592b5d
-  OneSignalXCFramework: 46ca7cd13f44fc5bec42ec3a5f4ff1548a9244d4
+  onesignal_flutter: f441aaefa112988a1e786c695a30695ad0291763
+  OneSignalXCFramework: 76ca508fc2b941317729d13fdec96817f8ef5b3b
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   shared_preferences_foundation: fcdcbc04712aee1108ac7fda236f363274528f78
   url_launcher_ios: 5334b05cef931de560670eeae103fd3e431ac3fe
 
-PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
+PODFILE CHECKSUM: 7be2f5f74864d463a8ad433546ed1de7e0f29aef
 
 COCOAPODS: 1.15.2

@@ -3,6 +3,7 @@ import 'package:onze_cofe_project/components/containers/custom_background_contai
 import 'package:onze_cofe_project/data_layer/data_layer.dart';
 import 'package:onze_cofe_project/screens/Home_screen/home_screen.dart';
 import 'package:onze_cofe_project/screens/auth/login_screen.dart';
+import 'package:onze_cofe_project/screens/employee_screens/orders_screen.dart';
 import 'package:onze_cofe_project/screens/welcome_screen/welcome_screen.dart';
 import 'dart:async';
 
@@ -21,19 +22,25 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Timer(const Duration(seconds: 3), () {
       // Navigate to the home screen after the splash screen
-      if (getIt.get<DataLayer>().firstTimeJoin == "true" &&
-          getIt.get<DataLayer>().currentUserInfo!.isNotEmpty) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const HomeScreen()),
-        );
-      }
       if (getIt.get<DataLayer>().firstTimeJoin == "true") {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const LoginScreen()));
+        if (getIt.get<DataLayer>().currentUserInfo != null) {
+          if (getIt.get<DataLayer>().currentUserInfo!['role'] == 'user') {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+            );
+          } else {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => OrdersScreen()),
+            );
+          }
+        } else {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => LoginScreen()));
+        }
       }
       if (getIt.get<DataLayer>().firstTimeJoin == null) {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const WelcomeScreen()));
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => WelcomeScreen()));
       }
     });
   }

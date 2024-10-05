@@ -42,7 +42,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<SearchEvent>((event, emit) {
       filteredQuery = items
           .where((e) => e['name']
-              .toString().trim()
+              .toString()
+              .trim()
               .toLowerCase()
               .contains(searchQuery.trim().toLowerCase()))
           .toList();

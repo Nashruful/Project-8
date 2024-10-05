@@ -22,6 +22,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       create: (context) => WelcomeCubit(),
       child: Builder(builder: (context) {
         return Scaffold(
+          backgroundColor: Color(0xff000000),
           body: BlocBuilder<WelcomeCubit, WelcomeState>(
             builder: (context, state) {
               return Stack(
@@ -36,48 +37,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         children: [
                           Stack(
                             children: [
-                              Flexible(
-                                child: Image.asset(
-                                  "assets/images/unsplash_TYIzeCiZ_60.png",
-                                  fit: BoxFit.cover,
-                                  width: MediaQuery.of(context).size.width,
-                                  height: MediaQuery.of(context).size.height,
-                                ),
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: CustomText(
-                                          text: "Sip. Smile. Create.",
-                                          color: Color(0xffE1DBD4),
-                                          size: 24),
-                                    ),
-                                    SizedBox(
-                                      child: CustomText(
-                                          text:
-                                              "Lorem ipsum dolor sit amet consectetur. Eget purus rhoncus fringilla fermentum semper ornare sit tempus nullam. ",
-                                          color: Color(0x72FFFFFF),
-                                          size: 16),
-                                    ),
-                                    SizedBox(
-                                      height: 119,
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          Stack(
-                            children: [
-                              Flexible(
-                                child: Opacity(
-                                  opacity: 0.85,
+                              Opacity(
+                                opacity: 0.75,
+                                child: Flexible(
                                   child: Image.asset(
-                                    "assets/images/image 12.png",
+                                    "assets/images/unsplash_TYIzeCiZ_60.png",
                                     fit: BoxFit.cover,
                                     width: MediaQuery.of(context).size.width,
                                     height: MediaQuery.of(context).size.height,
@@ -99,7 +63,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                     SizedBox(
                                       child: CustomText(
                                           text:
-                                              "Lorem ipsum dolor sit amet consectetur. Eget purus rhoncus fringilla fermentum semper ornare sit tempus nullam. ",
+                                              "Savor the taste of premium coffee that fuels your creativity. With every sip, let the rich flavors inspire your ideas and keep you motivated.",
                                           color: Color(0x72FFFFFF),
                                           size: 16),
                                     ),
@@ -115,7 +79,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             children: [
                               Flexible(
                                 child: Opacity(
-                                  opacity: 0.85,
+                                  opacity: 0.75,
                                   child: Image.asset(
                                     "assets/images/image.png",
                                     fit: BoxFit.cover,
@@ -132,14 +96,54 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                                     Align(
                                       alignment: Alignment.centerLeft,
                                       child: CustomText(
-                                          text: "Sip. Smile. Create.",
+                                          text: "Your Friend On Studying",
                                           color: Color(0xffE1DBD4),
                                           size: 24),
                                     ),
                                     SizedBox(
                                       child: CustomText(
                                           text:
-                                              "Lorem ipsum dolor sit amet consectetur. Eget purus rhoncus fringilla fermentum semper ornare sit tempus nullam. ",
+                                              "Always with you during your focused  time, keeping you steady and motivated. ",
+                                          color: Color(0x72FFFFFF),
+                                          size: 16),
+                                    ),
+                                    SizedBox(
+                                      height: 119,
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                          Stack(
+                            children: [
+                              Opacity(
+                                opacity: 0.75,
+                                child: Flexible(
+                                  child: Image.asset(
+                                    "assets/images/image 12.png",
+                                    fit: BoxFit.cover,
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height,
+                                  ),
+                                ),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: CustomText(
+                                          text: "Let coffee connect us",
+                                          color: Color(0xffE1DBD4),
+                                          size: 24),
+                                    ),
+                                    SizedBox(
+                                      child: CustomText(
+                                          text:
+                                              "Coffee is more than just a drink; it's a chance to connect and share. Join your loved onces for a chat and make lasting memories!",
                                           color: Color(0x72FFFFFF),
                                           size: 16),
                                     ),
@@ -161,10 +165,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width,
                           child: ElevatedButton(
-                              onPressed: () async{
+                              onPressed: () async {
                                 if (context.read<WelcomeCubit>().currentPage ==
                                     2) {
-                                     await getIt.get<DataLayer>().firstVisit();
+                                  await getIt.get<DataLayer>().firstVisit();
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(

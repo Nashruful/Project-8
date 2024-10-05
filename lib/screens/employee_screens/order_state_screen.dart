@@ -153,7 +153,7 @@ class OrderStateScreen extends StatelessWidget {
                                         "app_id":
                                             "ebdec5c2-30a4-447d-9577-a1c13b6d553e",
                                         "contents": {
-                                          "en": "Your Cafe is ready!"
+                                          "en": "Your Cofe is ready!"
                                         },
                                         "include_external_user_ids": [
                                           userID

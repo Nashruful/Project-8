@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:onze_cofe_project/components/custom_text/custom_text.dart';
 import 'package:onze_cofe_project/components/lists/custom_orders_list_tile.dart';
+import 'package:onze_cofe_project/data_layer/data_layer.dart';
+import 'package:onze_cofe_project/screens/auth/login_screen.dart';
 import 'package:onze_cofe_project/screens/employee_screens/bloc/order_state_bloc.dart';
+import 'package:onze_cofe_project/setup/setup_init.dart';
 import '../../components/containers/custom_background_container.dart';
 import 'order_state_screen.dart';
 
@@ -28,8 +32,20 @@ class OrdersScreen extends StatelessWidget {
               weight: FontWeight.w600,
             ),
             leading: IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.menu_rounded),
+              onPressed: () {
+                getIt.get<DataLayer>().currentUserInfo = null;
+                getIt.get<DataLayer>().itemsList = [];
+                getIt.get<DataLayer>().box.remove("ProductsList");
+                getIt.get<DataLayer>().box.remove("currentUser");
+                getIt.get<DataLayer>().supabase.auth.signOut();
+                OneSignal.logout();
+
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const LoginScreen()));
+              },
+              icon: const Icon(Icons.logout),
             ),
             bottom: TabBar(
               indicatorColor: const Color(0xff87B1C5),

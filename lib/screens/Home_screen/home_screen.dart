@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:onze_cofe_project/components/containers/custom_background_container.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:onze_cofe_project/data_layer/data_layer.dart';
+import 'package:onze_cofe_project/drawer_screen/custom_drawer.dart';
 import 'package:onze_cofe_project/screens/Home_screen/bloc/home_bloc.dart';
 import 'package:onze_cofe_project/screens/cart_screen/cart_screen.dart';
-import 'package:onze_cofe_project/screens/drawer_screen/custom_drawer.dart';
 import 'package:onze_cofe_project/setup/setup_init.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -114,7 +114,9 @@ class HomeScreen extends StatelessWidget {
 
               backgroundColor: const Color.fromARGB(0, 255, 255, 255),
             ),
-            drawer: const CustomDrawer(),
+            drawer: CustomDrawer(
+              name: getIt.get<DataLayer>().currentUserInfo!['name'],
+            ),
             body: CustomBackgroundContainer(
               child: Center(
                 child: Column(

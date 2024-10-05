@@ -17,16 +17,17 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3), () {
-      // Navigate to the home screen after the splash screen
-      if (getIt.get<DataLayer>().firstTimeJoin == "true" &&
-          getIt.get<DataLayer>().currentUserInfo!.isNotEmpty) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-        );
-      }
+
       if (getIt.get<DataLayer>().firstTimeJoin == "true") {
+        if (getIt.get<DataLayer>().currentUserInfo!.isNotEmpty) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+          );
+        }
+        else{
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => LoginScreen()));
+        }
       }
       if (getIt.get<DataLayer>().firstTimeJoin == null) {
         Navigator.pushReplacement(

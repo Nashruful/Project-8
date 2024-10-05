@@ -1,9 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class DataLayer {
   final supabase = Supabase.instance.client;
-  Map? currentUserInfo = {};
+  Map? currentUserInfo;
 
   String? firstTimeJoin;
 
@@ -11,9 +12,10 @@ class DataLayer {
   List<Map<String, dynamic>> itemsList = [];
 
   DataLayer() {
-    print("heeeeeeeereeeeeeeeeeeee $firstTimeJoin ---- $currentUserInfo");
+    // box.erase();
     loadData();
   }
+
   void addToCart({required Map<String, dynamic> item}) {
     // box.erase();
     // Retrieve the existing items from storage
@@ -42,26 +44,28 @@ class DataLayer {
   }
 
   void decrementItemQuantity({required Map<String, dynamic> item}) {
-  // Retrieve the existing items from storage
-  List<Map<String, dynamic>> itemsList = viewCartItems();
+    // Retrieve the existing items from storage
+    List<Map<String, dynamic>> itemsList = viewCartItems();
 
-  // Find the index of the item in the list
-  int existingItemIndex = itemsList.indexWhere((existingItem) => existingItem['product_id'] == item['product_id']);
+    // Find the index of the item in the list
+    int existingItemIndex = itemsList.indexWhere(
+        (existingItem) => existingItem['product_id'] == item['product_id']);
 
-  if (existingItemIndex != -1) {
-    // Decrement the quantity safely
-    itemsList[existingItemIndex]['quantity'] = (itemsList[existingItemIndex]['quantity'] ?? 1) - 1;
+    if (existingItemIndex != -1) {
+      // Decrement the quantity safely
+      itemsList[existingItemIndex]['quantity'] =
+          (itemsList[existingItemIndex]['quantity'] ?? 1) - 1;
 
-    // Check if the quantity is now 0 or less
-    if (itemsList[existingItemIndex]['quantity'] <= 0) {
-      // Remove the item from the list
-      itemsList.removeAt(existingItemIndex);
+      // Check if the quantity is now 0 or less
+      if (itemsList[existingItemIndex]['quantity'] <= 0) {
+        // Remove the item from the list
+        itemsList.removeAt(existingItemIndex);
+      }
+
+      // Store the updated list back in the box
+      box.write('ProductsList', itemsList);
     }
-
-    // Store the updated list back in the box
-    box.write('ProductsList', itemsList);
-  } 
-}
+  }
 
   void removeFromCart({required Map<String, dynamic> item}) {
     //func to remove from cart
@@ -89,6 +93,9 @@ class DataLayer {
   }
 
   loadData() {
+    if (box.hasData("currentUser")) {
+      currentUserInfo = box.read("currentUser");
+    }
     // if (box.hasData("currentUser")) {
     //   currentUserInfo =  box.read("currentUser");
     // }

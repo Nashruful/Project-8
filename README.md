@@ -1,4 +1,4 @@
-![534766945debe5a0abd0137dfcb6796a](https://github.com/user-attachments/assets/de0e6976-8876-4e83-8abd-7bb661dff082)
+
 # Onze Coffee
 
 ## Overview
@@ -36,7 +36,7 @@
 - **State Management**: `AuthCubit` processes OTP verification, displaying loading, success, or error states.
 - **UI Elements**: Displays the user's email, a Pinput widget for entering the OTP, and a placeholder for a "Verify OTP" button (which can be uncommented for manual submission).
 
-  ![Uploading 534766945debe5a0abd0137dfcb6796a.gif…]()
+![534766945debe5a0abd0137dfcb6796a](https://github.com/user-attachments/assets/de0e6976-8876-4e83-8abd-7bb661dff082)
 
 
 ### TrackOrderScreen

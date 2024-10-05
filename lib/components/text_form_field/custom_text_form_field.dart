@@ -25,6 +25,7 @@ class CustomTextFormField extends StatelessWidget {
             borderRadius: BorderRadius.circular(21.5),
             color: const Color(0xff85a2ad)),
         child: TextFormField(
+          style: TextStyle(color: Color(0xffF4F4F4)),
           validator: validator,
           controller: controller,
           decoration: InputDecoration(

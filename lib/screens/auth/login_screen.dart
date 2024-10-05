@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:onze_cofe_project/components/containers/custom_background_container.dart';
 import 'package:onze_cofe_project/components/custom_text/custom_text.dart';
 import 'package:onze_cofe_project/components/text_form_field/custom_text_form_field.dart';
@@ -23,8 +24,11 @@ class LoginScreen extends StatelessWidget {
             if (state is LoadingState) {
               showDialog(
                   context: context,
-                  builder: (context) => const AlertDialog(
-                        content: CircularProgressIndicator(),
+                  barrierDismissible: false,
+                  builder: (context) => AlertDialog(
+                        backgroundColor: Colors.transparent,
+                        content: Lottie.asset(
+                            "assets/json/Animation - 1728142372274.json"),
                       ));
             }
             if (state is SuccessState) {
@@ -38,8 +42,16 @@ class LoginScreen extends StatelessWidget {
             }
             if (state is ErrorState) {
               Navigator.pop(context);
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(state.msg)));
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    state.msg,
+                    style: const TextStyle(color: Color(0xff467283)),
+                  ),
+                  backgroundColor: const Color(0xfff4f4f4),
+                  duration: const Duration(seconds: 2),
+                ),
+              );
             }
           },
           child: Scaffold(
@@ -47,26 +59,28 @@ class LoginScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Image.asset("assets/images/pattren 1.png"),
+                  Image.asset("assets/images/g8.png"),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
                       children: [
                         const Align(
                             alignment: Alignment.centerLeft,
-                            child: CustomText(
-                                text: "Login",
-                                color: Color(0xffD7D2CB),
-                                size: 24)),
+                            child:  CustomText(
+                              text: "Login",
+                              color: Color(0xffD7D2CB),
+                              size: 24,
+                              weight: FontWeight.w700,
+                            )),
                         const SizedBox(
                           height: 40,
                         ),
-                        const Align(
+                        Align(
                           alignment: Alignment.centerLeft,
                           child: CustomText(
                               text: "Email",
-                              color: Color(0x72FFFFFF),
-                              size: 12),
+                              color: const Color(0xffFFFFFF).withOpacity(0.72),
+                              size: 16),
                         ),
                         const SizedBox(
                           height: 9,
@@ -83,7 +97,7 @@ class LoginScreen extends StatelessWidget {
                             const CustomText(
                                 text: "Don’t have an account?",
                                 color: Color(0x71FFFFFF),
-                                size: 12),
+                                size: 14),
                             const SizedBox(
                               width: 4,
                             ),
@@ -98,7 +112,7 @@ class LoginScreen extends StatelessWidget {
                               child: const CustomText(
                                   text: "Sign up",
                                   color: Color(0xffA8483D),
-                                  size: 12),
+                                  size: 14),
                             )
                           ],
                         ),

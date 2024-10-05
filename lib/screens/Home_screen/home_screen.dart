@@ -1,6 +1,7 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:onze_cofe_project/components/containers/custom_background_container.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:onze_cofe_project/data_layer/data_layer.dart';
@@ -63,9 +64,10 @@ class HomeScreen extends StatelessWidget {
               showDialog(
                 context: context,
                 barrierDismissible: false,
-                builder: (context) => const AlertDialog(
+                builder: (context) => AlertDialog(
                     backgroundColor: Colors.transparent,
-                    content: CircularProgressIndicator()),
+                    content: Lottie.asset(
+                        "assets/json/Animation - 1728142372274.json")),
               );
             } else if (state is SuccessState) {
               Navigator.pop(context);

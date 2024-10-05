@@ -53,7 +53,7 @@ class OrdersScreen extends StatelessWidget {
                 if (state is LoadingState) {
                   return Center(
                     child: Lottie.asset(
-                      "assets/json/Animation - 1728130344646.json",
+                      "assets/json/Animation - 1728142372274.json",
                     ),
                   );
                 } else if (state is ErrorState) {
@@ -78,6 +78,8 @@ class OrdersScreen extends StatelessWidget {
                               .map((order) {
                             final orderId = order['order_id'];
                             final userName = order['users']['name'];
+                            final userID = order['user_id'];
+                            print(userID);
                             final orderStatus = status[orders.indexOf(order)];
                             IconData icon;
 
@@ -95,19 +97,24 @@ class OrdersScreen extends StatelessWidget {
                             return Column(
                               children: [
                                 CustomOrdersListTile(
-                                  text: "Order #$orderId",
+                                  text: "Order #100$orderId",
                                   icon: icon,
                                   color: const Color(0xffD7D1CA),
                                   onPressed: () {
-                                    Navigator.of(context).push(
+                                    Navigator.of(context)
+                                        .push(
                                       MaterialPageRoute(
                                         builder: (context) => OrderStateScreen(
                                           orderID: orderId,
                                           userName: userName,
+                                          userID: userID,
                                         ),
                                       ),
-                                    ).then((_) {
-                                      context.read<OrderStateBloc>().add(GetOrdersEvent());
+                                    )
+                                        .then((_) {
+                                      context
+                                          .read<OrderStateBloc>()
+                                          .add(GetOrdersEvent());
                                     });
                                   },
                                 ),
@@ -122,7 +129,6 @@ class OrdersScreen extends StatelessWidget {
                                   status[orders.indexOf(order)] == "Done")
                               .map((order) {
                             final orderId = order['order_id'];
-                            final userName = order['users']['name'];
                             final orderStatus = status[orders.indexOf(order)];
                             IconData icon;
 
@@ -139,22 +145,18 @@ class OrdersScreen extends StatelessWidget {
 
                             return Column(
                               children: [
-                                CustomOrdersListTile(
-                                  text: "Order #$orderId",
-                                  icon: icon,
-                                  color: const Color(0xffD7D1CA),
-                                  onPressed: () {
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) => OrderStateScreen(
-                                          orderID: orderId,
-                                          userName: userName,
-                                        ),
-                                      ),
-                                    ).then((_) {
-                                      context.read<OrderStateBloc>().add(GetOrdersEvent());
-                                    });
-                                  },
+                                ListTile(
+                                  contentPadding: EdgeInsets.zero,
+                                  leading: Icon(
+                                    icon,
+                                    color: const Color(0xffD7D1CA),
+                                  ),
+                                  title: CustomText(
+                                    text: "Order #100$orderId",
+                                    color: const Color(0xffD7D1CA),
+                                    size: 20,
+                                    weight: FontWeight.w600,
+                                  ),
                                 ),
                                 const Divider(color: Color(0xffD7D1CA)),
                               ],

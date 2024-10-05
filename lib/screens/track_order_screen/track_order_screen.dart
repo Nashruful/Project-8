@@ -7,7 +7,7 @@ import 'package:onze_cofe_project/components/containers/custom_background_contai
 import 'package:onze_cofe_project/screens/track_order_screen/bloc/track_order_bloc.dart';
 
 class TrackOrderScreen extends StatelessWidget {
-  const TrackOrderScreen({super.key,  this.orderId});
+  const TrackOrderScreen({super.key, this.orderId});
   final int? orderId;
 
   @override
@@ -25,13 +25,14 @@ class TrackOrderScreen extends StatelessWidget {
               child: BlocBuilder<TrackOrderBloc, TrackOrderState>(
                 builder: (context, state) {
                   if (state is LoadingState) {
-                    return const Center(child: CircularProgressIndicator());
+                    return  Center(child: Lottie.asset(
+                            "assets/json/Animation - 1728142372274.json"));
                   } else if (state is SuccessState) {
                     final index = state.index;
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                         CustomText(
+                        CustomText(
                             text: "#100$orderId",
                             color: const Color(0xffF4F4F4),
                             size: 14),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:onze_cofe_project/components/containers/custom_background_container.dart';
 import 'package:onze_cofe_project/components/item/cartItem.dart';
 import 'package:onze_cofe_project/data_layer/data_layer.dart';
@@ -43,7 +44,9 @@ class CartScreen extends StatelessWidget {
                   child: BlocBuilder<CartCubit, CartState>(
                     builder: (context, state) {
                       if (state is CartLoading) {
-                        return const Center(child: CircularProgressIndicator());
+                        return Center(
+                            child: Lottie.asset(
+                                "assets/json/Animation - 1728142372274.json"));
                       } else if (state is CartSuccess) {
                         if (state.cartItems.isEmpty) {
                           return const Center(
@@ -128,8 +131,8 @@ class CartScreen extends StatelessWidget {
                       int totaltime = 0;
                       for (var element
                           in getIt.get<DataLayer>().viewCartItems()) {
-                        totaltime =
-                            totaltime + int.parse(element['waiting_time'].toString());
+                        totaltime = totaltime +
+                            int.parse(element['waiting_time'].toString());
                       }
                       Navigator.push(
                           context,

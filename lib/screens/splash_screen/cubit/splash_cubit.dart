@@ -5,6 +5,6 @@ class SplashCubit extends Cubit<bool> {
 
   void startSplash() async {
     await Future.delayed(Duration(seconds: 3));
-    emit(true); 
+    emit(true);//bbbb
   }
 }

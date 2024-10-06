@@ -13,10 +13,17 @@ part 'order_state_state.dart';
 class OrderStateBloc extends Bloc<OrderStateEvent, OrderStateState> {
   Timer? timer;
   final supabase = getIt.get<DataLayer>().supabase;
+  
 
   OrderStateBloc() : super(OrderStateInitial()) {
-    on<OrderStateEvent>((event, emit) {});
+    void initRealTimeListeners() {
+      supabase.from('orders').stream(primaryKey: ['order_id']).listen(
+          (List<Map<String, dynamic>> data) {
+        add(GetOrdersEvent());
+      });
+    }
 
+    initRealTimeListeners();
     on<StartTimerEvent>((event, emit) async {
       final orderID = event.orderID;
       await supabase
@@ -92,10 +99,11 @@ class OrderStateBloc extends Bloc<OrderStateEvent, OrderStateState> {
   }
 
   void startTimer(int seconds) {
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(Duration(seconds: 1), (timer) {
       add(RunTimerEvent());
     });
   }
+  
 
   @override
   Future<void> close() {

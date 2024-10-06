@@ -4,8 +4,8 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import '../../../data_layer/data_layer.dart';
-import '../../../setup/setup_init.dart';
+import '../../../../data_layer/data_layer.dart';
+import '../../../../setup/setup_init.dart';
 
 part 'order_state_event.dart';
 part 'order_state_state.dart';
@@ -15,33 +15,49 @@ class OrderStateBloc extends Bloc<OrderStateEvent, OrderStateState> {
   final supabase = getIt.get<DataLayer>().supabase;
 
   OrderStateBloc() : super(OrderStateInitial()) {
-    void initRealTimeListeners() {
-      supabase.from('orders').stream(primaryKey: ['order_id']).listen(
-          (List<Map<String, dynamic>> data) {
-        add(GetOrdersEvent());
-      });
-    }
+    // void initRealTimeListeners() {
+    //   supabase
+    //       .channel('public:orders')
+    //       .onPostgresChanges(
+    //           event: PostgresChangeEvent.all,
+    //           schema: 'public',
+    //           table: 'orders',
+    //           callback: (payload) {
+    //             print('Change received: ${payload.toString()}');
+    //             add(GetOrdersEvent());
+    //           })
+    //       .subscribe();
+    // }
 
-    initRealTimeListeners();
+    // initRealTimeListeners();
+
     on<StartTimerEvent>((event, emit) async {
-      final orderID = event.orderID;
-      await supabase
-          .from('orders')
-          .update({'status': 'In progress'}).eq('order_id', orderID);
+      try {
+        final orderID = event.orderID;
+        await supabase
+            .from('orders')
+            .update({'status': 'In progress'}).eq('order_id', orderID);
 
-      final orderWaitingTime = await supabase
-          .from('orders')
-          .select()
-          .eq('order_id', orderID)
-          .single();
+        final orderWaitingTime = await supabase
+            .from('orders')
+            .select()
+            .eq('order_id', orderID)
+            .single();
 
-      final seconds = orderWaitingTime['order_time'];
-      final minutes = (orderWaitingTime['order_time'] * 60);
-      print(seconds);
-      print(minutes);
+        final seconds = orderWaitingTime['order_time'];
+        final minutes = (orderWaitingTime['order_time'] * 60);
+        print(seconds);
+        print(minutes);
 
-      startTimer(minutes);
-      emit(RunningState(seconds: minutes));
+        startTimer(minutes);
+        emit(RunningState(seconds: minutes));
+      } on AuthException catch (e) {
+        emit(ErrorState(msg: e.message));
+      } on PostgrestException catch (e) {
+        emit(ErrorState(msg: e.message));
+      } catch (e) {
+        emit(ErrorState(msg: e.toString()));
+      }
     });
 
     on<RunTimerEvent>((event, emit) {
@@ -64,6 +80,7 @@ class OrderStateBloc extends Bloc<OrderStateEvent, OrderStateState> {
     });
 
     on<GetOrdersItemEvent>((event, emit) async {
+      emit(LoadingState());
       try {
         final orderItems = await getOrderItems(event.orderID);
         emit(OrdersItemState(
@@ -78,23 +95,7 @@ class OrderStateBloc extends Bloc<OrderStateEvent, OrderStateState> {
       }
     });
 
-    on<GetOrdersEvent>((event, emit) async {
-      emit(LoadingState());
-      try {
-        final orders = await supabase
-            .from('orders')
-            .select('*, users!orders_user_id_fkey(name)');
-
-        final orderStatus = orders.map((state) => state['status']).toList();
-        emit(OrdersState(orders: orders, status: orderStatus));
-      } on AuthException catch (e) {
-        emit(ErrorState(msg: e.message));
-      } on PostgrestException catch (e) {
-        emit(ErrorState(msg: e.message));
-      } catch (e) {
-        emit(ErrorState(msg: e.toString()));
-      }
-    });
+    
   }
 
   void startTimer(int seconds) {

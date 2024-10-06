@@ -4,7 +4,7 @@ import 'package:onze_cofe_project/components/app_bar/custom_app_bar.dart';
 import 'package:onze_cofe_project/components/containers/custom_order_container.dart';
 import 'package:onze_cofe_project/components/custom_elevated_button/custom_elevated_button.dart';
 import 'package:onze_cofe_project/components/custom_text/custom_text.dart';
-import 'package:onze_cofe_project/screens/employee_screens/bloc/order_state_bloc.dart';
+import 'package:onze_cofe_project/screens/employee_screens/bloc/orderState_bloc/order_state_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:dio/dio.dart';
 
@@ -45,6 +45,7 @@ class OrderStateScreen extends StatelessWidget {
                 child: BlocBuilder<OrderStateBloc, OrderStateState>(
                   builder: (context, state) {
                     if (state is OrdersItemState) {
+                      print('OrdersItemState: ${state.orderItem}');
                       return Column(
                         children: [
                           Expanded(
@@ -61,6 +62,7 @@ class OrderStateScreen extends StatelessWidget {
                                 ),
                                 Column(
                                   children: state.orderItem.map((item) {
+                                    print('Item: $item');
                                     final totalPrice = item['product']
                                             ['price'] *
                                         item['quantity'];
@@ -120,7 +122,7 @@ class OrderStateScreen extends StatelessWidget {
                                   child: Column(
                                     children: [
                                       Lottie.asset(
-                                          "assets/json/Animation - 1728142372274.json",
+                                          "assets/json/Animation - 1727514346086.json",
                                           width: 300,
                                           height: 300),
                                       CustomText(
@@ -212,7 +214,7 @@ class OrderStateScreen extends StatelessWidget {
                                   child: Column(
                                     children: [
                                       Lottie.asset(
-                                          "assets/json/Animation - 1728142372274.json",
+                                          "assets/json/Animation - 1727514346086.json",
                                           width: 300,
                                           height: 300),
                                       const CustomText(

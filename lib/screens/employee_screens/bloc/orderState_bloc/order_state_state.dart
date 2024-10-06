@@ -23,11 +23,11 @@ final class OrdersItemState extends OrderStateState {
   OrdersItemState({required this.orderItem} );
 }
 
-final class OrdersState extends OrderStateState {
-  final List orders;
-  final List status;
-  OrdersState({required this.orders, required this.status});
-}
+// final class OrdersState extends OrderStateState {
+//   final List orders;
+//   final List status;
+//   OrdersState({required this.orders, required this.status});
+// }
 
 final class ErrorState extends OrderStateState {
   final String msg;

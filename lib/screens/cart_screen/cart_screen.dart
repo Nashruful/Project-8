@@ -134,13 +134,22 @@ class CartScreen extends StatelessWidget {
                         totaltime = totaltime +
                             int.parse(element['waiting_time'].toString());
                       }
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PaymentScreen(
-                                    totalTime: totaltime,
-                                    totalPrice: finalPrice,
-                                  )));
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return PaymentScreen(
+                            totalTime: totaltime,
+                            totalPrice: finalPrice,
+                          );
+                        },
+                      );
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: (context) => PaymentScreen(
+                      //               totalTime: totaltime,
+                      //               totalPrice: finalPrice,
+                      //             )));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFA8483D),

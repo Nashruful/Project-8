@@ -5,7 +5,8 @@ import 'package:onze_cofe_project/screens/track_order_screen/track_order_screen.
 import 'package:onze_cofe_project/setup/setup_init.dart';
 
 class PaymentScreen extends StatelessWidget {
-  const PaymentScreen({super.key, required this.totalPrice, required this.totalTime});
+  const PaymentScreen(
+      {super.key, required this.totalPrice, required this.totalTime});
   final double totalPrice;
   final int totalTime;
 
@@ -21,8 +22,9 @@ class PaymentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+      child: Container(
         child: CreditCard(
           config: paymentConfig(),
           onPaymentResult: (PaymentResponse data) async {
@@ -30,7 +32,6 @@ class PaymentScreen extends StatelessWidget {
             print("---------------- ${data.amount}");
             print("---------------- ${data.status.name}");
             if (data.status.name == "paid") {
-              
               final response = await getIt
                   .get<DataLayer>()
                   .supabase

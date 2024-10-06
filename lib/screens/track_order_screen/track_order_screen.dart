@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
+import 'package:onze_cofe_project/components/custom_elevated_button/custom_elevated_button.dart';
 import 'package:onze_cofe_project/components/custom_text/custom_text.dart';
 import 'package:onze_cofe_project/components/app_bar/custom_app_bar.dart';
 import 'package:onze_cofe_project/components/containers/custom_background_container.dart';
+
+import 'package:onze_cofe_project/screens/Home_screen/home_screen.dart';
 import 'package:onze_cofe_project/screens/track_order_screen/bloc/track_order_bloc.dart';
 
 class TrackOrderScreen extends StatelessWidget {
@@ -25,7 +28,8 @@ class TrackOrderScreen extends StatelessWidget {
               child: BlocBuilder<TrackOrderBloc, TrackOrderState>(
                 builder: (context, state) {
                   if (state is LoadingState) {
-                    return  Center(child: Lottie.asset(
+                    return Center(
+                        child: Lottie.asset(
                             "assets/json/Animation - 1728142372274.json"));
                   } else if (state is SuccessState) {
                     final index = state.index;
@@ -154,6 +158,24 @@ class TrackOrderScreen extends StatelessWidget {
                                       ),
                                       Image.asset(
                                           "assets/images/ready_to_pick_up.png"),
+                                      CustomElevatedButton(
+                                        backgroundColor:
+                                            const Color(0xffA8483D),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      HomeScreen()));
+                                        },
+                                        child: Center(
+                                          child: const CustomText(
+                                            text: "Done",
+                                            color: Color(0xffF4F4F4),
+                                            size: 16,
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   ),
                                 ),

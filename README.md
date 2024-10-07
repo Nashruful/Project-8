@@ -166,7 +166,7 @@ The user flow diagram illustrates the process of managing orders for both employ
 
 ![Screenshot 2024-10-05 at 8 51 45 PM](https://github.com/user-attachments/assets/71450d5b-061e-4d36-8a1e-e009bc442978)
 
-![Screenshot 2024-10-05 at 8 56 22 PM](https://github.com/user-attachments/assets/b4bdd9ae-b55e-4d07-9a73-9c30c8319390)
+![ScreenRecording1446-04-04at3 11 30AM-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/6b671c2a-92e5-44a0-b3ab-b71b3c4ea2b9)
 
 
 ### Dependencies
